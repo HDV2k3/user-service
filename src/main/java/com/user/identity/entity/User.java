@@ -1,16 +1,18 @@
 package com.user.identity.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.persistence.*;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 @Entity
-@Table(name = "users")  // Đảm bảo bảng 'users' trong cơ sở dữ liệu có tên đúng
+@Table(name = "users") // Đảm bảo bảng 'users' trong cơ sở dữ liệu có tên đúng
 @Getter
 @Setter
 @Builder
@@ -24,10 +26,10 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @Column(name = "username", unique = true, nullable = false)  // Đảm bảo cột này không null
+    @Column(name = "username", unique = true, nullable = false) // Đảm bảo cột này không null
     String username;
 
-    @Column(nullable = false)  // Đảm bảo mật khẩu không null
+    @Column(nullable = false) // Đảm bảo mật khẩu không null
     String password;
 
     @Column(name = "first_name")
@@ -41,10 +43,10 @@ public class User extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_roles",  // Tên bảng liên kết giữa users và roles
-            joinColumns = @JoinColumn(name = "user_id"),  // Khóa ngoại liên kết với user
-            inverseJoinColumns = @JoinColumn(name = "role_id")  // Khóa ngoại liên kết với role
-    )
+            name = "user_roles", // Tên bảng liên kết giữa users và roles
+            joinColumns = @JoinColumn(name = "user_id"), // Khóa ngoại liên kết với user
+            inverseJoinColumns = @JoinColumn(name = "role_id") // Khóa ngoại liên kết với role
+            )
     Set<Role> roles;
 
     @PrePersist

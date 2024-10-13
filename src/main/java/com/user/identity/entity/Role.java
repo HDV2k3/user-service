@@ -1,10 +1,11 @@
 package com.user.identity.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -25,9 +26,10 @@ public class Role {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "role_permissions",  // Bảng liên kết giữa roles và permissions
-            joinColumns = @JoinColumn(name = "role_id"),  // Khóa ngoại từ bảng role_permissions đến bảng roles
-            inverseJoinColumns = @JoinColumn(name = "permission_id")  // Khóa ngoại từ bảng role_permissions đến bảng permissions
-    )
+            name = "role_permissions", // Bảng liên kết giữa roles và permissions
+            joinColumns = @JoinColumn(name = "role_id"), // Khóa ngoại từ bảng role_permissions đến bảng roles
+            inverseJoinColumns =
+                    @JoinColumn(name = "permission_id") // Khóa ngoại từ bảng role_permissions đến bảng permissions
+            )
     Set<Permission> permissions;
 }

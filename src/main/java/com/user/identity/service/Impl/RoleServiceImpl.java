@@ -1,19 +1,21 @@
 package com.user.identity.service.impl;
 
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.user.identity.dto.request.RoleRequest;
 import com.user.identity.dto.response.RoleResponse;
 import com.user.identity.mapper.RoleMapper;
 import com.user.identity.repository.PermissionRepository;
 import com.user.identity.repository.RoleRepository;
 import com.user.identity.service.RoleService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,15 +39,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleResponse> getAll() {
-        return roleRepository.findAll().stream()
-                .map(roleMapper::toRoleResponse)
-                .toList();
+        return roleRepository.findAll().stream().map(roleMapper::toRoleResponse).toList();
     }
 
     @Override
     public String delete(String roleId) {
         roleRepository.deleteById(roleId);
         return "Delete Successfully";
-
     }
 }

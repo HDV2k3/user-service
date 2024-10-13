@@ -1,6 +1,9 @@
 package com.user.identity.dto;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,8 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Objects;
 
 @Data
 @Slf4j
@@ -25,6 +26,7 @@ public class ApiResponse<T> {
 
     @Schema(description = "Data or payload returned by the API")
     T data;
+
     String message;
 
     @JsonIgnore
@@ -36,6 +38,7 @@ public class ApiResponse<T> {
         int mainCode = code % 1000;
         return mainCode >= 900;
     }
+
     public static <T> ApiResponse<T> success(T data) {
         return ApiResponse.<T>builder()
                 .responseCode(200)

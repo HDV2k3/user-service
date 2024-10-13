@@ -1,6 +1,7 @@
 package com.user.identity.facade;
 
-import com.nimbusds.jose.JOSEException;
+import org.springframework.stereotype.Service;
+
 import com.user.identity.dto.request.AuthenticationRequest;
 import com.user.identity.dto.request.IntrospectRequest;
 import com.user.identity.dto.request.LogoutRequest;
@@ -8,12 +9,10 @@ import com.user.identity.dto.request.RefreshRequest;
 import com.user.identity.dto.response.AuthenticationResponse;
 import com.user.identity.dto.response.IntrospectResponse;
 import com.user.identity.service.AuthenticationService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
 
 @Service
 @RequiredArgsConstructor
@@ -60,6 +59,5 @@ public class AuthenticationFacade {
     public IntrospectResponse introspect(IntrospectRequest introspectRequest) throws Exception {
 
         return authenticationService.introspect(introspectRequest);
-
     }
 }

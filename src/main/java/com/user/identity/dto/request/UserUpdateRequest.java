@@ -1,12 +1,12 @@
 package com.user.identity.dto.request;
 
+import java.time.Instant;
+import java.util.List;
+
 import com.user.identity.validator.DobConstraint;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Builder

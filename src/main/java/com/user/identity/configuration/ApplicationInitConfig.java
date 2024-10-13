@@ -1,15 +1,8 @@
 package com.user.identity.configuration;
 
-import com.user.identity.constant.PredefinedRole;
-import com.user.identity.entity.Role;
-import com.user.identity.entity.User;
-import com.user.identity.repository.RoleRepository;
-import com.user.identity.repository.UserRepository;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
-import lombok.extern.slf4j.Slf4j;
+import java.time.Instant;
+import java.util.HashSet;
+
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +10,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.util.HashSet;
+import com.user.identity.constant.PredefinedRole;
+import com.user.identity.entity.Role;
+import com.user.identity.entity.User;
+import com.user.identity.repository.RoleRepository;
+import com.user.identity.repository.UserRepository;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @RequiredArgsConstructor
