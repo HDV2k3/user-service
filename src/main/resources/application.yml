@@ -1,0 +1,58 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /user
+  max-http-request-header-size: 8MB
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    serialization:
+      indent-output: true
+      write-dates-as-timestamps: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  datasource:
+    url: jdbc:postgresql://databaseidentity.cd8c028cinkb.ap-southeast-2.rds.amazonaws.com:5432/identity
+    username: postgres
+    password: Devhuynh2003
+    driver-class-name: org.postgresql.Driver
+    jpa:
+      hibernate:
+        ddl-auto: update
+
+app:
+  db:
+    init:
+      enabled: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+  hystrix:
+    enabled: false
+  okhttp:
+    enabled: true
+
+jwt:
+  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  valid-duration: 3600 # in seconds
+  refreshable-duration: 36000 # in seconds
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.tool.hbm2ddl: DEBUG
+

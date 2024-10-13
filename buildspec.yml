@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Starting pre-build phase...
+  build:
+    commands:
+      - echo Packaging JAR file...
+      - mvn clean package
+  post_build:
+    commands:
+      - echo Build complete.
+artifacts:
+  files:
+    - target/identity.jar
+    - src/main/resources/application.yml
+  discard-paths: yes
