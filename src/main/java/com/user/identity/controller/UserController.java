@@ -39,7 +39,7 @@ public class UserController {
         return ApiResponse.success(result);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/get-by-id/{userId}")
     ApiResponse<UserResponse> getUser(@PathVariable("userId") int userId) {
         var result = userFacade.getUser(userId);
         return ApiResponse.success(result);
