@@ -1,4 +1,4 @@
-package com.user.identity.service.impl;
+package com.user.identity.service.Impl;
 
 import java.util.HashSet;
 import java.util.List;

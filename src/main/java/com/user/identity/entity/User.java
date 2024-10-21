@@ -2,7 +2,6 @@ package com.user.identity.entity;
 
 import java.time.Instant;
 import java.util.Set;
-import java.util.UUID;
 
 import jakarta.persistence.*;
 
@@ -23,8 +22,8 @@ import lombok.experimental.FieldDefaults;
 public class User extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
 
     @Column(name = "username", unique = true, nullable = false) // Đảm bảo cột này không null
     String username;
@@ -38,7 +37,7 @@ public class User extends BaseEntity {
     @Column(name = "last_name")
     String lastName;
 
-    @Column(name = "dob")
+    @Column(name = "day_of_birth")
     Instant dob;
 
     @ManyToMany(fetch = FetchType.LAZY)

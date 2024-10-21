@@ -12,6 +12,6 @@ phases:
       - echo Build complete.
 artifacts:
   files:
-    - target/identity-0.0.1-SNAPSHOT.jar
+    - target/identity.jar
     - src/main/resources/application.yml
   discard-paths: yes

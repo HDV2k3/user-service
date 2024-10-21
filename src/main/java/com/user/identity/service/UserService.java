@@ -11,11 +11,11 @@ public interface UserService {
 
     UserResponse getMyInfo();
 
-    UserResponse updateUser(String userId, UserUpdateRequest request);
+    UserResponse updateUser(int userId, UserUpdateRequest request);
 
-    String deleteUser(String userId);
+    String deleteUser(int userId);
 
     List<UserResponse> getUsers();
 
-    UserResponse getUser(String id);
+    UserResponse getUser(int id);
 }

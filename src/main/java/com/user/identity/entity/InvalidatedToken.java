@@ -18,8 +18,9 @@ import lombok.experimental.FieldDefaults;
 public class InvalidatedToken {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "token_id", nullable = false, unique = true)
-    String id;
+    Integer id;
 
     @Column(name = "expiry_time", nullable = false)
     Instant expiryTime;

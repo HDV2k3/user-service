@@ -45,7 +45,7 @@ public class UserFacade {
      * @param request the user update request containing updated user details
      * @return UserResponse containing the updated user details
      */
-    public UserResponse updateUser(String userId, UserUpdateRequest request) {
+    public UserResponse updateUser(int userId, UserUpdateRequest request) {
         return userService.updateUser(userId, request);
     }
 
@@ -54,7 +54,7 @@ public class UserFacade {
      *
      * @param userId the ID of the user to delete
      */
-    public String deleteUser(String userId) {
+    public String deleteUser(int userId) {
         userService.deleteUser(userId);
         return "Delete Successfully";
     }
@@ -74,7 +74,7 @@ public class UserFacade {
      * @param id the ID of the user to retrieve
      * @return UserResponse containing the user details
      */
-    public UserResponse getUser(String id) {
+    public UserResponse getUser(int id) {
         return userService.getUser(id);
     }
 }

@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId) {
+    ApiResponse<UserResponse> getUser(@PathVariable("userId") int userId) {
         var result = userFacade.getUser(userId);
         return ApiResponse.success(result);
     }
@@ -52,13 +52,13 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    ApiResponse<String> deleteUser(@PathVariable String userId) {
+    ApiResponse<String> deleteUser(@PathVariable int userId) {
         var result = userFacade.deleteUser(userId);
         return ApiResponse.success(result);
     }
 
     @PutMapping("/{userId}")
-    ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
+    ApiResponse<UserResponse> updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest request) {
         var result = userFacade.updateUser(userId, request);
         return ApiResponse.success(result);
     }

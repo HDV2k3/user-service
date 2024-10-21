@@ -20,7 +20,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
-
     @CreatedDate
     @Column(name = "created_date", updatable = false, nullable = false)
     Instant createdDate;

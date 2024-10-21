@@ -97,7 +97,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
 
             InvalidatedToken invalidatedToken = InvalidatedToken.builder()
-                    .id(jit)
+                    .id(Integer.valueOf(jit))
                     .expiryTime(expiryTime.toInstant())
                     .build();
 
@@ -115,7 +115,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
 
         InvalidatedToken invalidatedToken = InvalidatedToken.builder()
-                .id(jit)
+                .id(Integer.valueOf(jit))
                 .expiryTime(expiryTime.toInstant())
                 .build();
 
@@ -175,7 +175,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (!(verified && expiryTime.after(new Date()))) throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
+        if (invalidatedTokenRepository.existsById(Integer.valueOf(signedJWT.getJWTClaimsSet().getJWTID())))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         return signedJWT;

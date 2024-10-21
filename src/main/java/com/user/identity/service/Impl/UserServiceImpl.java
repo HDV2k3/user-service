@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PostAuthorize("returnObject.username == authentication.name")
-    public UserResponse updateUser(String userId, UserUpdateRequest request) {
+    public UserResponse updateUser(int userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         userMapper.updateUser(user, request);
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public String deleteUser(String userId) {
+    public String deleteUser(int userId) {
         userRepository.deleteById(userId);
         return "Delete Successfully";
     }
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public UserResponse getUser(String id) {
+    public UserResponse getUser(int id) {
         return userMapper.toUserResponse(
                 userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
