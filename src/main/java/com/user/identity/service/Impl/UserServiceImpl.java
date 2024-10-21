@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
-
+    /// @Autowired
     @Override
     public UserResponse createUser(UserCreationRequest request) {
         // Check if the username already exists
