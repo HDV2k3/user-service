@@ -17,6 +17,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -66,6 +68,8 @@ public class SecurityConfig {
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
                 // Disables CSRF protection (suitable for stateless APIs)
                 .csrf(AbstractHttpConfigurer::disable)
+                // CORS configuration to allow cross-origin requests
+                .cors(withDefaults())
                 // Configures stateless session management (no sessions maintained)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -100,21 +104,14 @@ public class SecurityConfig {
      */
     @Bean
     public CorsFilter corsFilter() {
-        // Create and configure a new CORS configuration
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        // Allow requests from any origin
-        corsConfiguration.addAllowedOrigin("*");
-        // Allow all HTTP methods (GET, POST, PUT, etc.)
-        corsConfiguration.addAllowedMethod("*");
-        // Allow all headers (e.g., Authorization, Content-Type)
+        corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
 
-        // Create a CORS configuration source and apply the configuration to all endpoints
-        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-
-        // Return a new CorsFilter with the configuration source
-        return new CorsFilter(urlBasedCorsConfigurationSource);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(source);
     }
     @Bean
     PasswordEncoder passwordEncoder() {
