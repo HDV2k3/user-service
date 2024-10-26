@@ -11,7 +11,7 @@ public interface UserService {
 
     UserResponse getMyInfo();
 
-    UserResponse updateUser(int userId, UserUpdateRequest request);
+    UserResponse updateUser( UserUpdateRequest request);
 
     String deleteUser(int userId);
 

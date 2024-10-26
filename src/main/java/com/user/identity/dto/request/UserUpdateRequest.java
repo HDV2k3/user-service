@@ -14,13 +14,13 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-    int id;
+    Integer  id;
     String password;
     String firstName;
     String lastName;
 
     @DobConstraint(min = 18, message = "INVALID_DOB")
-    Instant dob;
+    Instant dateOfBirth;
 
     List<String> roles;
 }

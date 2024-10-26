@@ -38,7 +38,7 @@ public class User extends BaseEntity {
     String lastName;
 
     @Column(name = "day_of_birth")
-    Instant dob;
+    Instant dateOfBirth;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

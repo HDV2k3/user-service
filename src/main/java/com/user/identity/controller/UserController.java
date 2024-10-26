@@ -57,9 +57,9 @@ public class UserController {
         return ApiResponse.success(result);
     }
 
-    @PutMapping("/{userId}")
-    ApiResponse<UserResponse> updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest request) {
-        var result = userFacade.updateUser(userId, request);
+    @PutMapping("/update")
+    ApiResponse<UserResponse> updateUser( @RequestBody UserUpdateRequest request) {
+        var result = userFacade.updateUser( request);
         return ApiResponse.success(result);
     }
 }

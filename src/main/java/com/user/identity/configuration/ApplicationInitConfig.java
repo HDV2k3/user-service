@@ -74,7 +74,7 @@ public class ApplicationInitConfig {
                         .password(passwordEncoder.encode(ADMIN_PASSWORD))
                         .firstName("Admin")
                         .lastName("User")
-                        .dob(Instant.parse("2003-02-08T00:00:00Z"))
+                        .dateOfBirth(Instant.parse("2003-02-08T00:00:00Z"))
                         .roles(roles)
                         .build();
                 user.setCreatedBy("System");

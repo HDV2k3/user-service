@@ -45,8 +45,8 @@ public class UserFacade {
      * @param request the user update request containing updated user details
      * @return UserResponse containing the updated user details
      */
-    public UserResponse updateUser(int userId, UserUpdateRequest request) {
-        return userService.updateUser(userId, request);
+    public UserResponse updateUser( UserUpdateRequest request) {
+        return userService.updateUser(request);
     }
 
     /**

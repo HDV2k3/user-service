@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -73,18 +74,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PostAuthorize("returnObject.username == authentication.name")
-    public UserResponse updateUser(int userId, UserUpdateRequest request) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+//    @PostAuthorize("returnObject.username == authentication.name")
+    public UserResponse updateUser(UserUpdateRequest request) {
+        if (request.getId() == null) {
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        }
+        User user = userRepository.findById(request.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        if (request.getRoles() != null) {
+            user.setRoles(new HashSet<>());
+            request.getRoles().forEach(role -> roleRepository.findById(role).ifPresent(user.getRoles()::add));
+        }
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        } else {
+            if (user.getPassword() == null) {
+                throw new AppException(ErrorCode.INVALID_PASSWORD);
+            }
+
+        }
+        if (request.getFirstName() != null && !request.getFirstName().isEmpty()) {
+            user.setUsername(request.getFirstName());
+        }
+        if (request.getLastName() != null && !request.getLastName().isEmpty()) {
+            user.setUsername(request.getLastName());
+        }
+        if (request.getDateOfBirth() != null) {
+            user.setDateOfBirth(request.getDateOfBirth());
+        }
+
 
         userMapper.updateUser(user, request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        var roles = roleRepository.findAllById(request.getRoles());
-        user.setRoles(new HashSet<>(roles));
-
         return userMapper.toUserResponse(userRepository.save(user));
     }
+
+
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
