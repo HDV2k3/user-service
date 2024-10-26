@@ -20,7 +20,7 @@ public class InvalidatedToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "token_id", nullable = false, unique = true)
-    Integer id;
+    String id;
 
     @Column(name = "expiry_time", nullable = false)
     Instant expiryTime;
