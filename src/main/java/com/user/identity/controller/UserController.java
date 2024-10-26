@@ -2,6 +2,7 @@ package com.user.identity.controller;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
     UserFacade userFacade;
 
-    @PostMapping
+    @PostMapping("/create")
+    @Operation(summary = "Create a new user")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         var result = userFacade.createUser(request);
         return ApiResponse.success(result);
