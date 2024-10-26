@@ -18,4 +18,6 @@ public interface UserService {
     List<UserResponse> getUsers();
 
     UserResponse getUser(int id);
+
+    UserResponse getMe();
 }

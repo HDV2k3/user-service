@@ -64,4 +64,10 @@ public class UserController {
         var result = userFacade.updateUser( request);
         return ApiResponse.success(result);
     }
+
+    @GetMapping("/me")
+    ApiResponse<UserResponse> getMe() {
+        var result = userFacade.getMe();
+        return ApiResponse.success(result);
+    }
 }

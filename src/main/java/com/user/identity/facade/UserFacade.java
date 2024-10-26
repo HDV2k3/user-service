@@ -41,7 +41,6 @@ public class UserFacade {
     /**
      * Updates the details of a specific user identified by their ID.
      *
-     * @param userId  the ID of the user to update
      * @param request the user update request containing updated user details
      * @return UserResponse containing the updated user details
      */
@@ -76,5 +75,9 @@ public class UserFacade {
      */
     public UserResponse getUser(int id) {
         return userService.getUser(id);
+    }
+
+    public UserResponse getMe() {
+        return userService.getMe();
     }
 }
