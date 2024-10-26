@@ -1,6 +1,7 @@
 package com.user.identity.dto.request;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.user.identity.validator.DobConstraint;
@@ -20,7 +21,7 @@ public class UserUpdateRequest {
     String lastName;
 
     @DobConstraint(min = 18, message = "INVALID_DOB")
-    Instant dateOfBirth;
+    LocalDate dateOfBirth;
 
     List<String> roles;
 }

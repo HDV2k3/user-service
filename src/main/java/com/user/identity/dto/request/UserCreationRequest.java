@@ -1,6 +1,7 @@
 package com.user.identity.dto.request;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.Size;
 
@@ -18,12 +19,12 @@ public class UserCreationRequest {
     @Size(min = 4, message = "USERNAME_INVALID")
     String username;
 
-    @Size(min = 6, message = "INVALID_PASSWORD")
+    @Size(min = 6, max = 20, message = "INVALID_PASSWORD")
     String password;
 
     String firstName;
     String lastName;
 
     @DobConstraint(min = 10, message = "INVALID_DOB")
-    Instant dob;
+    LocalDate dob;
 }

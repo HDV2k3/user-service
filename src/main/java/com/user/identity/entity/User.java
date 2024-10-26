@@ -1,6 +1,7 @@
 package com.user.identity.entity;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -38,7 +39,7 @@ public class User extends BaseEntity {
     String lastName;
 
     @Column(name = "day_of_birth")
-    Instant dateOfBirth;
+    LocalDate dateOfBirth;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

@@ -1,6 +1,7 @@
 package com.user.identity.configuration;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 
 import org.springframework.boot.ApplicationRunner;
@@ -74,7 +75,7 @@ public class ApplicationInitConfig {
                         .password(passwordEncoder.encode(ADMIN_PASSWORD))
                         .firstName("Admin")
                         .lastName("User")
-                        .dateOfBirth(Instant.parse("2003-02-08T00:00:00Z"))
+                        .dateOfBirth(LocalDate.now())
                         .roles(roles)
                         .build();
                 user.setCreatedBy("System");
