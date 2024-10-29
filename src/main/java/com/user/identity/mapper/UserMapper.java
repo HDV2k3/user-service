@@ -5,9 +5,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.user.identity.dto.request.UserCreationRequest;
-import com.user.identity.dto.request.UserUpdateRequest;
-import com.user.identity.dto.response.UserResponse;
+import com.user.identity.controller.dto.request.UserCreationRequest;
+import com.user.identity.controller.dto.request.UserUpdateRequest;
+import com.user.identity.controller.dto.response.UserResponse;
 import com.user.identity.entity.User;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface UserMapper {
     @Mapping(target = "password", source = "request.password")
     @Mapping(target = "firstName", source = "request.firstName")
     @Mapping(target = "lastName", source = "request.lastName")
-    @Mapping(target = "dateOfBirth", source = "request.dateOfBirth")
+    @Mapping(target = "dayOfBirth", source = "request.dayOfBirth")
     @Mapping(target = "roles", source = "request.roles")
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
 

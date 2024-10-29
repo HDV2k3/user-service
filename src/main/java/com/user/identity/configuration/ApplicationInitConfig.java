@@ -3,6 +3,8 @@ package com.user.identity.configuration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Random;
+import java.util.UUID;
 
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -32,7 +34,7 @@ public class ApplicationInitConfig {
     PasswordEncoder passwordEncoder;
 
     @NonFinal
-    static final String ADMIN_USER_NAME = "admin";
+    static final String ADMIN_EMAIL = "admin@gmail.com";
 
     @NonFinal
     static final String ADMIN_PASSWORD = "admin";
@@ -52,7 +54,7 @@ public class ApplicationInitConfig {
     public void initDatabase(UserRepository userRepository, RoleRepository roleRepository) {
         log.info("Initializing application with PostgreSQL.....");
 
-        if (userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
+        if (userRepository.findByEmail(ADMIN_EMAIL).isEmpty()) {
             log.info("Initializing roles...");
             roleRepository.save(Role.builder()
                     .name(PredefinedRole.USER_ROLE)
@@ -64,19 +66,21 @@ public class ApplicationInitConfig {
                     .description("Admin role")
                     .build());
 
-            if (userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
+            if (userRepository.findByEmail(ADMIN_EMAIL).isEmpty()) {
                 log.info("Creating admin user...");
                 var roles = new HashSet<Role>();
                 Instant time = Instant.now();
                 roles.add(adminRole);
 
                 User user = User.builder()
-                        .username(ADMIN_USER_NAME)
+                        .email(ADMIN_EMAIL)
                         .password(passwordEncoder.encode(ADMIN_PASSWORD))
                         .firstName("Admin")
-                        .lastName("User")
-                        .dateOfBirth(LocalDate.now())
+                        .lastName("Huynh")
+                        .dayOfBirth(LocalDate.now())
                         .roles(roles)
+                        .verificationToken(UUID.randomUUID().toString())
+                        .enabled(true)
                         .build();
                 user.setCreatedBy("System");
                 user.setCreatedDate(time);

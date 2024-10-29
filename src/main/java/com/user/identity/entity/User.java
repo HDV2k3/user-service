@@ -4,15 +4,17 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.Email;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Table(name = "users") // Đảm bảo bảng 'users' trong cơ sở dữ liệu có tên đúng
+@Table(name = "users")
 @Getter
 @Setter
 @Builder
@@ -26,10 +28,11 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "username", unique = true, nullable = false) // Đảm bảo cột này không null
-    String username;
+    @Column(name = "email", unique = true, nullable = false)
+    @Email
+    String email;
 
-    @Column(nullable = false) // Đảm bảo mật khẩu không null
+    @Column(nullable = false)
     String password;
 
     @Column(name = "first_name")
@@ -38,9 +41,9 @@ public class User extends BaseEntity {
     @Column(name = "last_name")
     String lastName;
 
-    @Column(name = "day_of_birth")
-    LocalDate dateOfBirth;
-
+    @Column(name = "day_of_birth",nullable = false)
+    LocalDate dayOfBirth;
+    String verificationToken;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles", // Tên bảng liên kết giữa users và roles
@@ -48,7 +51,8 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id") // Khóa ngoại liên kết với role
             )
     Set<Role> roles;
-
+    @Column(nullable = false)
+    boolean enabled;
     @PrePersist
     public void prePersist() {
         Instant now = Instant.now();

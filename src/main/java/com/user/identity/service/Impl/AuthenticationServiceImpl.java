@@ -3,11 +3,12 @@ package com.user.identity.service.Impl;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.*;
 
+import com.user.identity.event.OnRegistrationCompleteEvent;
+import com.user.identity.service.VerificationTokenService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,12 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import com.user.identity.dto.request.AuthenticationRequest;
-import com.user.identity.dto.request.IntrospectRequest;
-import com.user.identity.dto.request.LogoutRequest;
-import com.user.identity.dto.request.RefreshRequest;
-import com.user.identity.dto.response.AuthenticationResponse;
-import com.user.identity.dto.response.IntrospectResponse;
+import com.user.identity.controller.dto.request.AuthenticationRequest;
+import com.user.identity.controller.dto.request.IntrospectRequest;
+import com.user.identity.controller.dto.request.LogoutRequest;
+import com.user.identity.controller.dto.request.RefreshRequest;
+import com.user.identity.controller.dto.response.AuthenticationResponse;
+import com.user.identity.controller.dto.response.IntrospectResponse;
 import com.user.identity.entity.InvalidatedToken;
 import com.user.identity.entity.User;
 import com.user.identity.exception.AppException;
@@ -45,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthenticationServiceImpl implements AuthenticationService {
     UserRepository userRepository;
     InvalidatedTokenRepository invalidatedTokenRepository;
-
+    ApplicationEventPublisher eventPublisher;
     @NonFinal
     @Value("${jwt.signerKey}")
     String SIGNER_KEY;
@@ -62,17 +63,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         var user = userRepository
-                .findByUsername(request.getUsername())
+                .findByEmail(request.getEmail())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
-
         if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        var token = generateToken(user);
+        String loginToken = null;
+        String verificationToken = null;
 
-        return AuthenticationResponse.builder().token(token).authenticated(true).build();
+        if (!user.isEnabled()) {
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user));
+        }
+
+        return AuthenticationResponse.builder()
+                .token(loginToken) // Token đăng nhập (null nếu chưa kích hoạt)
+                .verificationToken(verificationToken) // Token xác minh email (null nếu đã kích hoạt)
+                .authenticated(user.isEnabled()) // true nếu tài khoản đã kích hoạt, ngược lại là false
+                .build();
     }
+
 
     @Override
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
@@ -121,10 +131,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         invalidatedTokenRepository.save(invalidatedToken);
 
-        var username = signedJWT.getJWTClaimsSet().getSubject();
+        var email = signedJWT.getJWTClaimsSet().getSubject();
 
         var user =
-                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+                userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         var token = generateToken(user);
 
@@ -135,7 +145,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getUsername())
+                .subject(user.getEmail())
                 .issuer("devHuynh.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(

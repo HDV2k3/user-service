@@ -1,9 +1,5 @@
-package com.user.identity.dto.response;
-
-import java.time.Instant;
+package com.user.identity.controller.dto.request;
 import java.time.LocalDate;
-import java.util.Set;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,11 +8,14 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    int id;
-    String username;
+public class UserCreationRequest {
+
+    String email;
+
+    String password;
+
     String firstName;
     String lastName;
-    LocalDate dob;
-    Set<RoleResponse> roles;
+
+    LocalDate dayOfBirth;
 }

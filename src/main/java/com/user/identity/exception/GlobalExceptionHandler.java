@@ -9,7 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.user.identity.dto.ApiResponse;
+import com.user.identity.controller.dto.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.user.identity.dto.response;
+package com.user.identity.controller.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +8,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PermissionResponse {
-    String name;
-    String description;
+public class IntrospectResponse {
+    boolean valid;
 }

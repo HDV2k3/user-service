@@ -2,12 +2,12 @@ package com.user.identity.facade;
 
 import org.springframework.stereotype.Service;
 
-import com.user.identity.dto.request.AuthenticationRequest;
-import com.user.identity.dto.request.IntrospectRequest;
-import com.user.identity.dto.request.LogoutRequest;
-import com.user.identity.dto.request.RefreshRequest;
-import com.user.identity.dto.response.AuthenticationResponse;
-import com.user.identity.dto.response.IntrospectResponse;
+import com.user.identity.controller.dto.request.AuthenticationRequest;
+import com.user.identity.controller.dto.request.IntrospectRequest;
+import com.user.identity.controller.dto.request.LogoutRequest;
+import com.user.identity.controller.dto.request.RefreshRequest;
+import com.user.identity.controller.dto.response.AuthenticationResponse;
+import com.user.identity.controller.dto.response.IntrospectResponse;
 import com.user.identity.service.AuthenticationService;
 
 import lombok.AccessLevel;

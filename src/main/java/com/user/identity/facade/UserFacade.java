@@ -1,24 +1,24 @@
 package com.user.identity.facade;
 
 import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import com.user.identity.dto.request.UserCreationRequest;
-import com.user.identity.dto.request.UserUpdateRequest;
-import com.user.identity.dto.response.UserResponse;
+import com.user.identity.controller.dto.request.UserCreationRequest;
+import com.user.identity.controller.dto.request.UserUpdateRequest;
+import com.user.identity.controller.dto.response.UserResponse;
 import com.user.identity.service.UserService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserFacade {
     UserService userService;
-
     /**
      * Creates a new user based on the provided request.
      *
@@ -80,4 +80,7 @@ public class UserFacade {
     public UserResponse getMe() {
         return userService.getMe();
     }
+
+
+
 }

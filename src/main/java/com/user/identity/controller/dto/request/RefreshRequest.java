@@ -1,4 +1,4 @@
-package com.user.identity.dto.request;
+package com.user.identity.controller.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,6 +8,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class IntrospectRequest {
+public class RefreshRequest {
     String token;
 }

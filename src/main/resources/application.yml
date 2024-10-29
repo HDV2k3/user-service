@@ -26,6 +26,18 @@ spring:
       properties:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: dacviethuynh@gmail.com
+    password: rmreuovkyxyjftyl
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=500,expireAfterAccess=600s
 
 app:
   db:
@@ -58,4 +70,5 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.tool.hbm2ddl: DEBUG
+
 

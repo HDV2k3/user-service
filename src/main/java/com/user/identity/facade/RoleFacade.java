@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.user.identity.dto.request.RoleRequest;
-import com.user.identity.dto.response.RoleResponse;
+import com.user.identity.controller.dto.request.RoleRequest;
+import com.user.identity.controller.dto.response.RoleResponse;
 import com.user.identity.service.RoleService;
 
 import lombok.AccessLevel;

@@ -24,7 +24,20 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {
-        "/users/get-by-id/**","/users/create","/users/update/**", "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh", "/swagger-ui/**", "/api-docs/**",
+        "/users/get-by-id/**",
+            "/users/create",
+            "/users/update/**",
+            "/auth/login",
+            "/auth/introspect",
+            "/auth/logout",
+            "/auth/refresh",
+            "/swagger-ui/**",
+            "/api-docs/**",
+            "/users/**",
+            "/auth/**",
+            "/roles/**",
+            "/permissions/**"
+
     };
 
     // Custom JWT decoder for handling token validation and extraction

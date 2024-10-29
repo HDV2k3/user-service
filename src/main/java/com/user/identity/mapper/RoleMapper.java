@@ -3,8 +3,8 @@ package com.user.identity.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.user.identity.dto.request.RoleRequest;
-import com.user.identity.dto.response.RoleResponse;
+import com.user.identity.controller.dto.request.RoleRequest;
+import com.user.identity.controller.dto.response.RoleResponse;
 import com.user.identity.entity.Role;
 
 @Mapper(componentModel = "spring")

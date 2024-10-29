@@ -1,4 +1,4 @@
-package com.user.identity.dto.response;
+package com.user.identity.controller.dto.request;
 
 import java.util.Set;
 
@@ -10,8 +10,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoleResponse {
+public class RoleRequest {
     String name;
     String description;
-    Set<PermissionResponse> permissions;
+    Set<String> permissions;
 }

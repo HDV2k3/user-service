@@ -2,9 +2,9 @@ package com.user.identity.service;
 
 import java.util.List;
 
-import com.user.identity.dto.request.UserCreationRequest;
-import com.user.identity.dto.request.UserUpdateRequest;
-import com.user.identity.dto.response.UserResponse;
+import com.user.identity.controller.dto.request.UserCreationRequest;
+import com.user.identity.controller.dto.request.UserUpdateRequest;
+import com.user.identity.controller.dto.response.UserResponse;
 
 public interface UserService {
     UserResponse createUser(UserCreationRequest request);
@@ -20,4 +20,5 @@ public interface UserService {
     UserResponse getUser(int id);
 
     UserResponse getMe();
+
 }

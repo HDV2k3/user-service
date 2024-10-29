@@ -1,4 +1,4 @@
-package com.user.identity.dto;
+package com.user.identity.controller.dto;
 
 import java.util.Objects;
 

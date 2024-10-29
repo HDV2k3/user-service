@@ -1,19 +1,22 @@
 package com.user.identity.service.Impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.security.access.prepost.PostAuthorize;
+import com.user.identity.event.OnRegistrationCompleteEvent;
+import com.user.identity.service.VerificationTokenService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.user.identity.constant.PredefinedRole;
-import com.user.identity.dto.request.UserCreationRequest;
-import com.user.identity.dto.request.UserUpdateRequest;
-import com.user.identity.dto.response.UserResponse;
+import com.user.identity.controller.dto.request.UserCreationRequest;
+import com.user.identity.controller.dto.request.UserUpdateRequest;
+import com.user.identity.controller.dto.response.UserResponse;
 import com.user.identity.entity.Role;
 import com.user.identity.entity.User;
 import com.user.identity.exception.AppException;
@@ -37,13 +40,15 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
-    /// @Autowired
+    ApplicationEventPublisher eventPublisher;
+
     @Override
     public UserResponse createUser(UserCreationRequest request) {
         // Check if the username already exists
-        if (userRepository.existsByUsername(request.getUsername())) {
-            throw new AppException(ErrorCode.USER_EXISTED);
-        }
+       userRepository.findByEmail(request.getEmail()).ifPresent(user -> {
+           log.error("User already existed{}", user.getEmail());
+            throw new AppException(ErrorCode.USER_ALREADY_EXISTED);
+        });
 
         // Map the request to the User entity
         User user = userMapper.toUser(request);
@@ -55,10 +60,9 @@ public class UserServiceImpl implements UserService {
         HashSet<Role> roles = new HashSet<>();
         roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
         user.setRoles(roles);
-
         // Save the user
         user = userRepository.save(user);
-
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user));
         // Map the saved user to UserResponse and return
         return userMapper.toUserResponse(user);
     }
@@ -68,7 +72,7 @@ public class UserServiceImpl implements UserService {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 
-        User user = userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        User user = userRepository.findByEmail(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return userMapper.toUserResponse(user);
     }
@@ -94,13 +98,13 @@ public class UserServiceImpl implements UserService {
 
         }
         if (request.getFirstName() != null && !request.getFirstName().isEmpty()) {
-            user.setUsername(request.getFirstName());
+            user.setFirstName(request.getFirstName());
         }
         if (request.getLastName() != null && !request.getLastName().isEmpty()) {
-            user.setUsername(request.getLastName());
+            user.setLastName(request.getLastName());
         }
-        if (request.getDateOfBirth() != null) {
-            user.setDateOfBirth(request.getDateOfBirth());
+        if (request.getDayOfBirth() != null) {
+            user.setDayOfBirth(request.getDayOfBirth());
         }
 
 
@@ -134,12 +138,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getMe() {
         var context = SecurityContextHolder.getContext();
-        String username = context.getAuthentication().getName();
-
-        // Ghi log giá trị username
-        System.out.println("Username: " + username);
-
-        User user = userRepository.findByUsername(username)
+        String email = context.getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return userMapper.toUserResponse(user);
