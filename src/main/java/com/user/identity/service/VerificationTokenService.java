@@ -96,7 +96,7 @@ public class VerificationTokenService {
             return "User is already verified";
         }
 
-        String confirmationUrl = generateConfirmationUrl(token);
+        String confirmationUrl = generateConfirmationUrl();
         emailService.sendVerificationEmail(user.getEmail(), user.getFirstName(), user.getLastName(), confirmationUrl);
 
         log.info("Verification email resent to user: {}", user.getEmail());
@@ -106,10 +106,10 @@ public class VerificationTokenService {
     /**
      * Generates the URL for email verification based on the token.
      *
-     * @param token the verification token
+
      * @return a full URL for verification
      */
-    private String generateConfirmationUrl(String token) {
-        return "http://localhost:3000/success-email-verification?token=" + token;
+    private String generateConfirmationUrl() {
+        return "http://localhost:3000/verify-email";
     }
 }
