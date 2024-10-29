@@ -6,7 +6,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import com.user.identity.event.OnRegistrationCompleteEvent;
-import com.user.identity.service.VerificationTokenService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,8 +24,8 @@ import com.user.identity.controller.dto.request.LogoutRequest;
 import com.user.identity.controller.dto.request.RefreshRequest;
 import com.user.identity.controller.dto.response.AuthenticationResponse;
 import com.user.identity.controller.dto.response.IntrospectResponse;
-import com.user.identity.entity.InvalidatedToken;
-import com.user.identity.entity.User;
+import com.user.identity.repository.entity.InvalidatedToken;
+import com.user.identity.repository.entity.User;
 import com.user.identity.exception.AppException;
 import com.user.identity.exception.ErrorCode;
 import com.user.identity.repository.InvalidatedTokenRepository;
@@ -69,17 +68,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        String loginToken = null;
-        String verificationToken = null;
+        var token = generateToken(user);
 
         if (!user.isEnabled()) {
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user));
         }
 
         return AuthenticationResponse.builder()
-                .token(loginToken) // Token đăng nhập (null nếu chưa kích hoạt)
-                .verificationToken(verificationToken) // Token xác minh email (null nếu đã kích hoạt)
-                .authenticated(user.isEnabled()) // true nếu tài khoản đã kích hoạt, ngược lại là false
+                .token(token) // Token đăng nhập (null nếu chưa kích hoạt)
+                .authenticated(true) // true nếu tài khoản đã kích hoạt, ngược lại là false
                 .build();
     }
 

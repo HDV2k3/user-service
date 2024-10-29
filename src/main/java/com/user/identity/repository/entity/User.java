@@ -1,10 +1,9 @@
-package com.user.identity.entity;
+package com.user.identity.repository.entity;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.Email;

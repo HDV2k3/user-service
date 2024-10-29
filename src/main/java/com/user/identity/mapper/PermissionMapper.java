@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 
 import com.user.identity.controller.dto.request.PermissionRequest;
 import com.user.identity.controller.dto.response.PermissionResponse;
-import com.user.identity.entity.Permission;
+import com.user.identity.repository.entity.Permission;
 
 @Mapper(componentModel = "spring")
 public interface PermissionMapper {

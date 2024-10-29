@@ -1,6 +1,6 @@
 package com.user.identity.service;
 
-import com.user.identity.entity.User;
+import com.user.identity.repository.entity.User;
 import com.user.identity.exception.AppException;
 import com.user.identity.exception.ErrorCode;
 import com.user.identity.repository.UserRepository;

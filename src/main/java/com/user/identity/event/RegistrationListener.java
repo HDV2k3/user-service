@@ -1,7 +1,7 @@
 package com.user.identity.event;
 
 
-import com.user.identity.entity.User;
+import com.user.identity.repository.entity.User;
 import com.user.identity.service.EmailService;
 import com.user.identity.service.VerificationTokenService;
 import jakarta.mail.MessagingException;

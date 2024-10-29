@@ -1,4 +1,4 @@
-package com.user.identity.entity;
+package com.user.identity.repository.entity;
 
 import java.util.Set;
 

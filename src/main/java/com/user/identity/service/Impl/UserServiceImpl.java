@@ -1,12 +1,9 @@
 package com.user.identity.service.Impl;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import com.user.identity.event.OnRegistrationCompleteEvent;
-import com.user.identity.service.VerificationTokenService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +14,8 @@ import com.user.identity.constant.PredefinedRole;
 import com.user.identity.controller.dto.request.UserCreationRequest;
 import com.user.identity.controller.dto.request.UserUpdateRequest;
 import com.user.identity.controller.dto.response.UserResponse;
-import com.user.identity.entity.Role;
-import com.user.identity.entity.User;
+import com.user.identity.repository.entity.Role;
+import com.user.identity.repository.entity.User;
 import com.user.identity.exception.AppException;
 import com.user.identity.exception.ErrorCode;
 import com.user.identity.mapper.UserMapper;

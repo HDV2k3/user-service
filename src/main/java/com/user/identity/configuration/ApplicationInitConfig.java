@@ -3,7 +3,6 @@ package com.user.identity.configuration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.boot.ApplicationRunner;
@@ -14,8 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.user.identity.constant.PredefinedRole;
-import com.user.identity.entity.Role;
-import com.user.identity.entity.User;
+import com.user.identity.repository.entity.Role;
+import com.user.identity.repository.entity.User;
 import com.user.identity.repository.RoleRepository;
 import com.user.identity.repository.UserRepository;
 
