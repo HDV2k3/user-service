@@ -11,11 +11,8 @@ import lombok.experimental.FieldDefaults;
 public class UserCreationRequest {
 
     String email;
-
     String password;
-
     String firstName;
     String lastName;
-
     LocalDate dayOfBirth;
 }

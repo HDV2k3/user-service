@@ -38,9 +38,27 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     ApplicationEventPublisher eventPublisher;
-
+    public void validateUserCreationRequest(UserCreationRequest request) {
+        if (request.getEmail() == null) {
+            throw new AppException(ErrorCode.EMAIL_NULL);
+        }
+        if (request.getPassword() == null) {
+            throw new AppException(ErrorCode.PASSWORD_NULL);
+        }
+        if (request.getFirstName() == null) {
+            throw new AppException(ErrorCode.FIRST_NAME_NULL);
+        }
+        if (request.getLastName() == null) {
+            throw new AppException(ErrorCode.LAST_NAME_NULL);
+        }
+        if (request.getDayOfBirth() == null) {
+            throw new AppException(ErrorCode.DOB_NULL);
+        }
+    }
     @Override
     public UserResponse createUser(UserCreationRequest request) {
+        // Validate the request
+        validateUserCreationRequest(request);
         // Check if the username already exists
        userRepository.findByEmail(request.getEmail()).ifPresent(user -> {
            log.error("User already existed{}", user.getEmail());

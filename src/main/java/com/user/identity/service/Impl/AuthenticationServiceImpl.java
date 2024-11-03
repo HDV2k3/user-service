@@ -48,15 +48,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     ApplicationEventPublisher eventPublisher;
     @NonFinal
     @Value("${jwt.signerKey}")
-    String SIGNER_KEY;
+    public String SIGNER_KEY;
 
     @NonFinal
     @Value("${jwt.valid-duration}")
-    long VALID_DURATION;
+    public long VALID_DURATION;
 
     @NonFinal
     @Value("${jwt.refreshable-duration}")
-    long REFRESHABLE_DURATION;
+    public  long REFRESHABLE_DURATION;
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
