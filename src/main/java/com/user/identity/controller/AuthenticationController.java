@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-@Tag(name = "Authentication Controller", description = "Endpoints for user authentication and token management")
+@Tag(name = "Authentication Controller", description = "Các endpoint cho xác thực người dùng và quản lý token")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -30,60 +30,60 @@ public class AuthenticationController {
     AuthenticationFacade authenticationFacade;
 
     /**
-     * Authenticate user and generate a token.
+     * Xác thực người dùng và tạo token.
      *
-     * @param request the authentication request containing credentials
-     * @return a successful response containing the authentication token
+     * @param request yêu cầu xác thực chứa thông tin người dùng
+     * @return phản hồi thành công chứa token xác thực
      */
     @PostMapping("/login")
-    @Operation(summary = "Login user",
-            description = "Authenticate the user and return a JWT token."
-          )
+    @Operation(summary = "Đăng nhập người dùng",
+            description = "Xác thực người dùng và trả về token JWT."
+    )
     public ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         var result = authenticationFacade.authenticate(request);
         return ApiResponse.success(result);
     }
 
     /**
-     * Check the validity of the token.
+     * Kiểm tra tính hợp lệ của token.
      *
-     * @param request the introspect request containing the token
-     * @return a response indicating whether the token is valid or not
+     * @param request yêu cầu introspect chứa token
+     * @return phản hồi cho biết token có hợp lệ hay không
      */
     @PostMapping("/introspect")
-    @Operation(summary = "Introspect token",
-            description = "Check if the provided token is valid."
-         )
+    @Operation(summary = "Kiểm tra token",
+            description = "Kiểm tra xem token có hợp lệ hay không."
+    )
     public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request) throws Exception {
         var result = authenticationFacade.introspect(request);
         return ApiResponse.success(result);
     }
 
     /**
-     * Refresh the authentication token.
+     * Làm mới token xác thực.
      *
-     * @param request the refresh request containing the old token
-     * @return a new authentication response with a new token
+     * @param request yêu cầu làm mới token chứa token cũ
+     * @return phản hồi mới với token mới
      */
     @PostMapping("/refresh")
-    @Operation(summary = "Refresh token",
-            description = "Generate a new token using the refresh token."
-         )
+    @Operation(summary = "Làm mới token",
+            description = "Tạo một token mới từ refresh token."
+    )
     public ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshRequest request) throws Exception {
         var result = authenticationFacade.refreshToken(request);
         return ApiResponse.success(result);
     }
 
     /**
-     * Logout user and invalidate the token.
+     * Đăng xuất người dùng và hủy bỏ token.
      *
-     * @param request the logout request containing the token to invalidate
-     * @return a response indicating the result of the logout operation
+     * @param request yêu cầu đăng xuất chứa token cần hủy bỏ
+     * @return phản hồi cho biết kết quả của thao tác đăng xuất
      */
     @PostMapping("/logout")
-    @Operation(summary = "Logout user",
-            description = "Invalidate the user’s token to log them out."
-         )
+    @Operation(summary = "Đăng xuất người dùng",
+            description = "Hủy bỏ token của người dùng để đăng xuất."
+    )
     public ApiResponse<String> logout(@RequestBody LogoutRequest request) throws Exception {
         var result = authenticationFacade.logout(request);
         return ApiResponse.success(result);
