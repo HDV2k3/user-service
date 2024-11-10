@@ -26,6 +26,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@SecurityRequirement(name = "bearerAuth") // Áp dụng yêu cầu xác thực JWT cho tất cả các endpoint trong controller này
 public class UserController {
 
     UserFacade userFacade;

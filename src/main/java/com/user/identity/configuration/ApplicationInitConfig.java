@@ -37,6 +37,12 @@ public class ApplicationInitConfig {
 
     @NonFinal
     static final String ADMIN_PASSWORD = "admin";
+    @NonFinal
+    static final String ADMIN_EMAIL_1 = "qle2318@gmail.com";
+
+    @NonFinal
+    static final String ADMIN_PASSWORD_1 = "admin";
+
 
     @Bean
     @ConditionalOnProperty(
