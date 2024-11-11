@@ -26,7 +26,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-@SecurityRequirement(name = "bearerAuth") // Áp dụng yêu cầu xác thực JWT cho tất cả các endpoint trong controller này
 public class UserController {
 
     UserFacade userFacade;
@@ -75,7 +74,7 @@ public class UserController {
      *
      * @return thông tin của người dùng hiện tại (người dùng đã xác thực)
      */
-    @Operation(summary = "Lấy thông tin người dùng hiện tại", description = "Lấy thông tin của người dùng hiện tại đã đăng nhập.")
+    @Operation(summary = "Lấy thông tin người dùng hiện tại", description = "Lấy thông tin của người dùng hiện tại đã đăng nhập.", security = {@SecurityRequirement(name = "bearerAuth")})
     @GetMapping("/my-info")
     public ApiResponse<UserResponse> getMyInfo() {
         var result = userFacade.getMyInfo();
@@ -137,13 +136,13 @@ public class UserController {
     /**
      * Gửi lại liên kết xác minh email.
      *
-     * @param token mã thông báo để gửi lại liên kết xác minh
+     * @param email mã thông báo để gửi lại liên kết xác minh
      * @return phản hồi xác nhận việc gửi lại liên kết xác minh thành công
      */
     @Operation(summary = "Gửi lại liên kết xác minh email", description = "Gửi lại liên kết xác minh email cho người dùng với token đã cung cấp.")
     @PostMapping("/resend-verification")
-    public ApiResponse<String> resendVerification(@RequestParam("token") String token) {
-        var result = verifyFacade.resendVerification(token);
+    public ApiResponse<String> resendVerification(@RequestParam("email") String email) {
+        var result = verifyFacade.resendVerification(email);
         return ApiResponse.success(result);
     }
 }

@@ -79,24 +79,25 @@ public class VerificationTokenService {
 
         return response;
     }
-
     /**
      * Resends verification email to the user if they haven't been verified yet.
      *
-     * @param token the verification token
+     * @param email the verification token
      * @return a message indicating the result of the resend action
      * @throws MessagingException if there is an error while sending the email
      */
-    public String resendVerification(String token) throws MessagingException {
-        User user = userRepository.findByVerificationToken(token)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    public String resendVerification(String email) throws MessagingException {
+
+//        User user = userRepository.findByVerificationToken(email)
+//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.EMAIL_NULL));
 
         if (user.isEnabled()) {
             log.info("User with email {} is already verified.", user.getEmail());
             return "User is already verified";
         }
 
-        String confirmationUrl = generateConfirmationUrl();
+        String confirmationUrl = generateConfirmationUrl(user.getVerificationToken());
         emailService.sendVerificationEmail(user.getEmail(), user.getFirstName(), user.getLastName(), confirmationUrl);
 
         log.info("Verification email resent to user: {}", user.getEmail());
@@ -109,7 +110,9 @@ public class VerificationTokenService {
 
      * @return a full URL for verification
      */
-    private String generateConfirmationUrl() {
-        return "http://ec2-13-54-221-254.ap-southeast-2.compute.amazonaws.com:3000//verify-email";
+
+    private String generateConfirmationUrl(String token) {
+
+        return "http://ec2-13-54-221-254.ap-southeast-2.compute.amazonaws.com:3000/verify-email/"+token;
     }
 }

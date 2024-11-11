@@ -26,9 +26,9 @@ public class VerifyFacade {
         }
     }
 
-    public String resendVerification(String token) throws AppException {
+    public String resendVerification(String email) throws AppException {
         try {
-            return verificationTokenService.resendVerification(token);
+            return verificationTokenService.resendVerification(email);
         } catch (AppException e) {
             log.error("Error resending verification: {}", e.getMessage());
             throw e;
