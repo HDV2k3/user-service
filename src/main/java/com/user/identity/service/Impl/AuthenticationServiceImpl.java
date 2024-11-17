@@ -1,18 +1,5 @@
 package com.user.identity.service.Impl;
 
-import java.text.ParseException;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-
-import com.user.identity.event.OnRegistrationCompleteEvent;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -24,19 +11,31 @@ import com.user.identity.controller.dto.request.LogoutRequest;
 import com.user.identity.controller.dto.request.RefreshRequest;
 import com.user.identity.controller.dto.response.AuthenticationResponse;
 import com.user.identity.controller.dto.response.IntrospectResponse;
-import com.user.identity.repository.entity.InvalidatedToken;
-import com.user.identity.repository.entity.User;
+import com.user.identity.event.OnRegistrationCompleteEvent;
 import com.user.identity.exception.AppException;
 import com.user.identity.exception.ErrorCode;
 import com.user.identity.repository.InvalidatedTokenRepository;
 import com.user.identity.repository.UserRepository;
+import com.user.identity.repository.entity.InvalidatedToken;
+import com.user.identity.repository.entity.User;
 import com.user.identity.service.AuthenticationService;
-
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.text.ParseException;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.StringJoiner;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +55,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @NonFinal
     @Value("${jwt.refreshable-duration}")
-    public  long REFRESHABLE_DURATION;
+    public long REFRESHABLE_DURATION;
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -138,6 +137,34 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return AuthenticationResponse.builder().token(token).authenticated(true).build();
     }
 
+    //token 1h
+//    private String generateToken(User user) {
+//        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
+//
+//        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
+//                .subject(user.getEmail())
+//                .issuer("devHuynh.com")
+//                .issueTime(new Date())
+//                .expirationTime(new Date(
+//                        Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS).toEpochMilli()))
+//                .jwtID(UUID.randomUUID().toString())
+//                .claim("userId", user.getId())
+//                .claim("scope", buildScope(user))
+//                .build();
+//
+//        Payload payload = new Payload(jwtClaimsSet.toJSONObject());
+//
+//        JWSObject jwsObject = new JWSObject(header, payload);
+//
+//        try {
+//            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
+//            return jwsObject.serialize();
+//        } catch (JOSEException e) {
+//            log.error("Cannot create token", e);
+//            throw new RuntimeException(e);
+//        }
+//    }
+    // token vo han
     private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
@@ -145,8 +172,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .subject(user.getEmail())
                 .issuer("devHuynh.com")
                 .issueTime(new Date())
-                .expirationTime(new Date(
-                        Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS).toEpochMilli()))
                 .jwtID(UUID.randomUUID().toString())
                 .claim("userId", user.getId())
                 .claim("scope", buildScope(user))
@@ -164,6 +189,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new RuntimeException(e);
         }
     }
+
 
     private SignedJWT verifyToken(String token, boolean isRefresh) throws JOSEException, ParseException {
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());

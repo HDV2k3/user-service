@@ -117,14 +117,21 @@ public class SecurityConfig {
      */
     @Bean
     public CorsFilter corsFilter() {
+        // Create and configure a new CORS configuration
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOriginPattern("*");
-        corsConfiguration.addAllowedHeader("*");
+        // Allow requests from any origin
+        corsConfiguration.addAllowedOrigin("*");
+        // Allow all HTTP methods (GET, POST, PUT, etc.)
         corsConfiguration.addAllowedMethod("*");
+        // Allow all headers (e.g., Authorization, Content-Type)
+        corsConfiguration.addAllowedHeader("*");
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(source);
+        // Create a CORS configuration source and apply the configuration to all endpoints
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
+        // Return a new CorsFilter with the configuration source
+        return new CorsFilter(urlBasedCorsConfigurationSource);
     }
     @Bean
     PasswordEncoder passwordEncoder() {
