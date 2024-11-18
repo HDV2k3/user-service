@@ -32,7 +32,7 @@ jobs:
         run: docker pull devhuynh2003/user-app:latest
 
       - name: Delete old container
-        run: docker rm -f user-app-container || true # Ignore error if container does not exist
+        run: docker rm -f user-app-container || true
 
       - name: Run docker container
         run: docker run -d -p 8080:8080 --name user-app-container devhuynh2003/user-app:latest
