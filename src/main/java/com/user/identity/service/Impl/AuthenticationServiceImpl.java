@@ -138,33 +138,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     //token 1h
-//    private String generateToken(User user) {
-//        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-//
-//        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-//                .subject(user.getEmail())
-//                .issuer("devHuynh.com")
-//                .issueTime(new Date())
-//                .expirationTime(new Date(
-//                        Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS).toEpochMilli()))
-//                .jwtID(UUID.randomUUID().toString())
-//                .claim("userId", user.getId())
-//                .claim("scope", buildScope(user))
-//                .build();
-//
-//        Payload payload = new Payload(jwtClaimsSet.toJSONObject());
-//
-//        JWSObject jwsObject = new JWSObject(header, payload);
-//
-//        try {
-//            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
-//            return jwsObject.serialize();
-//        } catch (JOSEException e) {
-//            log.error("Cannot create token", e);
-//            throw new RuntimeException(e);
-//        }
-//    }
-    // token vo han
     private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
@@ -172,6 +145,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .subject(user.getEmail())
                 .issuer("devHuynh.com")
                 .issueTime(new Date())
+                .expirationTime(new Date(
+                        Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS).toEpochMilli()))
                 .jwtID(UUID.randomUUID().toString())
                 .claim("userId", user.getId())
                 .claim("scope", buildScope(user))
@@ -189,6 +164,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new RuntimeException(e);
         }
     }
+    // token vo han
+//    private String generateToken(User user) {
+//        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
+//
+//        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
+//                .subject(user.getEmail())
+//                .issuer("devHuynh.com")
+//                .issueTime(new Date())
+//                .jwtID(UUID.randomUUID().toString())
+//                .claim("userId", user.getId())
+//                .claim("scope", buildScope(user))
+//                .build();
+//
+//        Payload payload = new Payload(jwtClaimsSet.toJSONObject());
+//
+//        JWSObject jwsObject = new JWSObject(header, payload);
+//
+//        try {
+//            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
+//            return jwsObject.serialize();
+//        } catch (JOSEException e) {
+//            log.error("Cannot create token", e);
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 
     private SignedJWT verifyToken(String token, boolean isRefresh) throws JOSEException, ParseException {

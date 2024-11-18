@@ -63,8 +63,8 @@ feign:
 
 jwt:
   signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
-  valid-duration: 3600 # in seconds
-  refreshable-duration: 36000 # in seconds
+  valid-duration: 36000000 # in seconds
+  refreshable-duration: 3600000 # in seconds
 
 logging:
   level:
