@@ -125,7 +125,7 @@ public class SecurityConfig {
         corsConfiguration.addAllowedMethod("*");
         // Allow all headers (e.g., Authorization, Content-Type)
         corsConfiguration.addAllowedHeader("*");
-
+    /// tt
         // Create a CORS configuration source and apply the configuration to all endpoints
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
