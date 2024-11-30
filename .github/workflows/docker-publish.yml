@@ -20,11 +20,8 @@ jobs:
           docker build -t devhuynh2003/user-server:latest .
           docker push devhuynh2003/user-server:latest
 
-      - name: Log in to Local Docker Registry
-        run: docker run -d -p 5000:5000 --name registry registry:2
-
       - name: Build and push Docker image to Local Registry
         run: |
-          docker build -t localhost:5000/user-server:latest .
-          docker push localhost:5000/user-server:latest
+          docker build -t user-server:latest .
+          docker push user-server:latest
 
