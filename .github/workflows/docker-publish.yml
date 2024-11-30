@@ -19,28 +19,14 @@ jobs:
         run: |
           docker build -t devhuynh2003/user-server:latest .
           docker push devhuynh2003/user-server:latest
+      - name: Build and push postgres image
+        run: |
+          docker tag postgres:latest ${{ secrets.DOCKER_USERNAME }}/postgres:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/postgres:latest
 
-      - name: Set up environment variables
-        run: echo "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/identity" >> $GITHUB_ENV
-      - name: Set up environment variables
-
-        run: echo "SPRING_DATASOURCE_USERNAME=postgres" >> $GITHUB_ENV
-      - name: Set up environment variables
-        run: echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
-      - name: Set up environment variables
-
-        run: echo "SIGNER_KEY=${{ secrets.SIGNER_KEY }}" >> $GITHUB_ENV
-      - name: Set up environment variables
-        run: echo "MAIL_HOST=${{ secrets.MAIL_HOST }}" >> $GITHUB_ENV
-      - name: Set up environment variables
-        run: echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> $GITHUB_ENV
-      - name: Set up environment variables
-        run: echo "EMAIL=${{ secrets.EMAIL }}" >> $GITHUB_ENV
-      - name: Set up environment variables
-        run: echo "PASS_EMAIL=${{ secrets.PASS_EMAIL }}" >> $GITHUB_ENV
-
-      - name: Build and start services with Docker Compose
-        run: docker-compose up --build
-
+      - name: Build and push pgadmin image
+        run: |
+          docker tag dpage/pgadmin4:latest ${{ secrets.DOCKER_USERNAME }}/pgadmin4:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/pgadmin4:latest
 
 
