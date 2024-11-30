@@ -21,7 +21,5 @@ jobs:
           docker push devhuynh2003/user-server:latest
 
       - name: Build and push Docker image to Local Registry
-        run: |
-          docker build -t user-server:latest .
-          docker push user-server:latest
+        run: docker-compose up --build
 
