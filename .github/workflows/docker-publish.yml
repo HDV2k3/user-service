@@ -40,11 +40,7 @@ jobs:
         run: echo "PASS_EMAIL=${{ secrets.PASS_EMAIL }}" >> $GITHUB_ENV
 
       - name: Build and start services with Docker Compose
-        run: |
-          docker-compose -f docker-compose.yml up --build -d
+        run: docker-compose up --build
 
-      - name: Verify services are running
-        run: |
-          docker-compose ps
 
 
