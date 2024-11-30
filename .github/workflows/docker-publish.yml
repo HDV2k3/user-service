@@ -21,12 +21,13 @@ jobs:
           docker push devhuynh2003/user-server:latest
       - name: Build and push postgres image
         run: |
-          docker tag postgres:latest ${{ secrets.DOCKER_USERNAME }}/postgres:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/postgres:latest
+          docker tag postgres:latest devhuynh2003/postgres:latest
+          docker push devhuynh2003/postgres:latest
+
 
       - name: Build and push pgadmin image
         run: |
-          docker tag dpage/pgadmin4:latest ${{ secrets.DOCKER_USERNAME }}/pgadmin4:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/pgadmin4:latest
+          docker tag dpage/pgadmin4:latest devhuynh2003/pgadmin4:latest
+          docker push devhuynh2003/pgadmin4:latest
 
 
