@@ -47,6 +47,8 @@ app:
   db:
     init:
       enabled: true
+dotenv:
+  enabled: true
 
 springdoc:
   api-docs:
@@ -66,7 +68,7 @@ feign:
     enabled: true
 
 jwt:
-  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  signerKey: ${SIGNER_KEY}
   valid-duration: 3600000000 # in seconds
   refreshable-duration: 3600000 # in seconds
 
