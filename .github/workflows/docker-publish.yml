@@ -12,26 +12,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Docker Compose
+      - name: Create .env file
         run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version  # Verify docker-compose is installed
+          echo "POSTGRES_USER=postgres" >> .env
+          echo "POSTGRES_PASSWORD=Devhuynh2003" >> .env
+          echo "POSTGRES_DB=identity" >> .env
+          echo "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/identity" >> .env
+          echo "SPRING_DATASOURCE_USERNAME=postgres" >> .env
+          echo "SPRING_DATASOURCE_PASSWORD=Devhuynh2003" >> .env
+          echo "PGADMIN_DEFAULT_EMAIL=dacviethuynh@gmail.com" >> .env
+          echo "PGADMIN_DEFAULT_PASSWORD=Devhuynh2003" >> .env
+          echo "DB_HOST=postgres" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "POSTGRES_INITDB_ARGS=--data-checksums" >> .env
+          echo "TZ=Asia/Ho_Chi_Minh" >> .env
+          echo "MAIL_HOST=smtp.gmail.com" >> .env
+          echo "MAIL_PORT=587" >> .env
+          echo "EMAIL=dacviethuynh@gmail.com" >> .env
+          echo "PASS_EMAIL=rmreuovkyxyjftyl" >> .env
+          echo "SIGNER_KEY=1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij" >> .env
 
       - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-      - name: Build Docker image
-        run: docker-compose build
-
-      - name: Backup Postgres data
-        run: docker exec -t identity_database_container pg_dumpall -c -U postgres > dump.sql
-
-      - name: Add dump.sql to Docker image
-        run: cp dump.sql ./  # Chuyển dump.sql vào thư mục hiện tại
-
-      - name: Build image with data
-        run: docker-compose build
-
-      - name: Push image to Docker Hub
-        run: docker push devhuynh2003/user-server:latest
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: devhuynh2003/user-server:latest

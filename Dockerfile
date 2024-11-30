@@ -17,7 +17,7 @@ FROM amazoncorretto:21.0.4
 # Set working folder to App and copy complied file from above step
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-COPY dump.sql /docker-entrypoint-initdb.d/
+
 EXPOSE 8080
 # Command to run the application
 
