@@ -20,11 +20,6 @@ jobs:
           docker build -t devhuynh2003/user-server:latest .
           docker push devhuynh2003/user-server:latest
 
-      - name: Build and push postgres image
-        run: docker push devhuynh2003/postgres:latest
-
-      - name: Build and push pgadmin image
-        run: docker push devhuynh2003/pgadmin4:latest
 
 
 
