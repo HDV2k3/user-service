@@ -3,7 +3,7 @@ name: Deploy Java Spring Boot Application To Docker
 on:
   push:
     branches:
-      - dev_docker
+      - dev_docker_hub
 
 jobs:
   build:
