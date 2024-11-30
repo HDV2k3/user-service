@@ -21,14 +21,14 @@ services:
       - "5432:5432"
     volumes:
       - my-postgres-data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     networks:
       - app-network
 
   your-app:
     build:
       context: .
-    image: user-server:latest
+    image: devhuynh2003/user-server:latest
     container_name: user-server
     depends_on:
       postgres:

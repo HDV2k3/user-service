@@ -15,11 +15,17 @@ jobs:
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build and push Docker image to Docker Hub
-        run: |
-          docker build -t devhuynh2003/user-server:latest .
-          docker push devhuynh2003/user-server:latest
+      - name: Build Docker image
+        run: docker-compose build
 
+      - name: Backup Postgres data
+        run: docker exec -t identity_database_container pg_dumpall -c -U postgres > dump.sql
 
+      - name: Add dump.sql to Docker image
+        run: cp dump.sql ./  # Chuyển dump.sql vào thư mục hiện tại
 
+      - name: Build image with data
+        run: docker-compose build
 
+      - name: Push image to Docker Hub
+        run: docker push devhuynh2003/user-server:latest
