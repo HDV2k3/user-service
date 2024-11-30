@@ -21,5 +21,8 @@ jobs:
           docker push devhuynh2003/user-server:latest
 
       - name: Build and push Docker image to Local Registry
-        run: docker-compose up --build
+        run: |
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
+
 
