@@ -31,10 +31,10 @@ spring:
     generate-ddl: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   mail:
-    host: ${MAIL_HOST}
+    host: smtp.gmail.com
     port: 587
-    username: ${EMAIL}
-    password: ${PASS_EMAIL}
+    username: dacviethuynh@gmail.com
+    password: rmreuovkyxyjftyl
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
@@ -68,7 +68,7 @@ feign:
     enabled: true
 
 jwt:
-  signerKey: ${SIGNER_KEY}
+  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
   valid-duration: 3600000000 # in seconds
   refreshable-duration: 3600000 # in seconds
 
