@@ -20,9 +20,13 @@ spring:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      allow-pool-suspension: true
   jpa:
     hibernate:
       ddl-auto: update
+      boot:
+        allow_jdbc_metadata_access: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -30,6 +34,9 @@ spring:
         show_sql: true
     generate-ddl: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: never
   mail:
     host: ${MAIL_HOST}
     port: 587
@@ -72,9 +79,6 @@ jwt:
   valid-duration: 3600000000 # in seconds
   refreshable-duration: 3600000 # in seconds
 
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.tool.hbm2ddl: DEBUG
+
 
 

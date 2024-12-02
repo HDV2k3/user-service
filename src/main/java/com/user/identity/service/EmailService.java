@@ -42,42 +42,92 @@ public class EmailService {
      * @return a String containing the HTML content for the email
      */
     private String generateVerificationEmailContent(String firstName, String lastName, String verificationUrl) {
-        return "<!DOCTYPE html>"
-                + "<html lang=\"en\">"
-                + "<head>"
-                + "<meta charset=\"UTF-8\">"
-                + "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
-                + "<title>Email Verification</title>"
-                + "<style>"
-                + "body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }"
-                + ".container { width: 100%; padding: 20px; background-color: #f4f4f4; }"
-                + ".email-content { max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }"
-                + ".header { text-align: center; background-color: #007bff; color: #ffffff; padding: 10px 0; border-radius: 5px 5px 0 0; }"
-                + ".header h1 { margin: 0; font-size: 24px; }"
-                + ".body { padding: 20px; text-align: center; }"
-                + ".body p { font-size: 16px; color: #333333; line-height: 1.5; }"
-                + ".body a { display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px; }"
-                + ".footer { text-align: center; margin-top: 20px; color: #777777; font-size: 12px; }"
-                + "</style>"
-                + "</head>"
-                + "<body>"
-                + "<div class=\"container\">"
-                + "<div class=\"email-content\">"
-                + "<div class=\"header\">"
-                + "<h1>Email Verification</h1>"
-                + "</div>"
-                + "<div class=\"body\">"
-                + "<p>Hello " + firstName + lastName + ",</p>"
-                + "<p>Thank you for registering with us. Please click the button below to verify your email address:</p>"
-                + "<a href=\"" + verificationUrl + "\" target=\"_blank\">Verify Email</a>"
-                + "<p>If you did not create an account, no further action is required.</p>"
-                + "</div>"
-                + "<div class=\"footer\">"
-                + "<p>&copy; 2024 MyApp. All rights reserved.</p>"
-                + "</div>"
-                + "</div>"
-                + "</div>"
-                + "</body>"
-                + "</html>";
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "  <meta charset=\"UTF-8\">\n" +
+                "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "  <style>\n" +
+                "    body {\n" +
+                "      font-family: Arial, sans-serif;\n" +
+                "      margin: 0;\n" +
+                "      padding: 0;\n" +
+                "      background-color: #f4f4f4;\n" +
+                "    }\n" +
+                "    .email-container {\n" +
+                "      max-width: 600px;\n" +
+                "      margin: 20px auto;\n" +
+                "      background: #ffffff;\n" +
+                "      border-radius: 8px;\n" +
+                "      overflow: hidden;\n" +
+                "      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n" +
+                "    }\n" +
+                "    .header {\n" +
+                "      background-color: #4CAF50;\n" +
+                "      color: #ffffff;\n" +
+                "      text-align: center;\n" +
+                "      padding: 20px;\n" +
+                "      font-size: 24px;\n" +
+                "      font-weight: bold;\n" +
+                "    }\n" +
+                "    .content {\n" +
+                "      padding: 20px;\n" +
+                "      text-align: left;\n" +
+                "      color: #333333;\n" +
+                "    }\n" +
+                "    .content p {\n" +
+                "      font-size: 16px;\n" +
+                "      line-height: 1.6;\n" +
+                "    }\n" +
+                "    .cta-button {\n" +
+                "      display: block;\n" +
+                "      width: fit-content;\n" +
+                "      margin: 20px auto;\n" +
+                "      padding: 10px 20px;\n" +
+                "      text-align: center;\n" +
+                "      background-color: #4CAF50;\n" +
+                "      color: #ffffff;\n" +
+                "      text-decoration: none;\n" +
+                "      font-size: 16px;\n" +
+                "      font-weight: bold;\n" +
+                "      border-radius: 4px;\n" +
+                "      transition: background-color 0.3s ease;\n" +
+                "    }\n" +
+                "    .cta-button:hover {\n" +
+                "      background-color: #45a049;\n" +
+                "    }\n" +
+                "    .footer {\n" +
+                "      text-align: center;\n" +
+                "      font-size: 12px;\n" +
+                "      color: #666666;\n" +
+                "      padding: 10px 20px;\n" +
+                "      background-color: #f4f4f4;\n" +
+                "      border-top: 1px solid #e0e0e0;\n" +
+                "    }\n" +
+                "    .footer a {\n" +
+                "      color: #4CAF50;\n" +
+                "      text-decoration: none;\n" +
+                "    }\n" +
+                "  </style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "  <div class=\"email-container\">\n" +
+                "    <div class=\"header\">\n" +
+                "      Verify Your Email\n" +
+                "    </div>\n" +
+                "    <div class=\"content\">\n" +
+                "      <p>Hello " + firstName + " " + lastName + ",</p>\n" +
+                "      <p>Thank you for signing up! Please click the button below to verify your email address and activate your account:</p>\n" +
+                "      <a href=\"" + verificationUrl + "\" class=\"cta-button\">Verify Email</a>\n" +
+                "      <p>If you didn't create an account with us, please ignore this email.</p>\n" +
+                "    </div>\n" +
+                "    <div class=\"footer\">\n" +
+                "      <p>Need help? <a href=\"mailto:nextlife@odayok.com\">Contact Support</a></p>\n" +
+                "      <p>&copy; 2024 NextLife. All rights reserved.</p>\n" +
+                "    </div>\n" +
+                "  </div>\n" +
+                "</body>\n" +
+                "</html>\n";
     }
+
 }

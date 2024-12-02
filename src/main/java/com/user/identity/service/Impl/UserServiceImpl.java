@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.user.identity.event.OnRegistrationCompleteEvent;
+import com.user.identity.repository.UserSubscriptionRepository;
+import com.user.identity.repository.entity.UserSubscription;
+import jakarta.transaction.Transactional;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +41,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     ApplicationEventPublisher eventPublisher;
+    UserSubscriptionRepository userSubscriptionRepository;
     public void validateUserCreationRequest(UserCreationRequest request) {
         if (request.getEmail() == null) {
             throw new AppException(ErrorCode.EMAIL_NULL);
@@ -56,12 +60,14 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
+    @Transactional
     public UserResponse createUser(UserCreationRequest request) {
         // Validate the request
         validateUserCreationRequest(request);
+
         // Check if the username already exists
-       userRepository.findByEmail(request.getEmail()).ifPresent(user -> {
-           log.error("User already existed{}", user.getEmail());
+        userRepository.findByEmail(request.getEmail()).ifPresent(user -> {
+            log.error("User already existed{}", user.getEmail());
             throw new AppException(ErrorCode.USER_ALREADY_EXISTED);
         });
 
@@ -75,12 +81,26 @@ public class UserServiceImpl implements UserService {
         HashSet<Role> roles = new HashSet<>();
         roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
         user.setRoles(roles);
-        // Save the user
+
+        // Save the user first to get the user ID
         user = userRepository.save(user);
+
+        // Create and save the UserSubscription
+        UserSubscription userSubscription = UserSubscription.builder()
+                .user(user)
+                .remainingFreePosts(5)  // Default 5 free posts
+                .isPremium(false)       // Default not premium
+                .build();
+
+        userSubscriptionRepository.save(userSubscription);
+
+        // Publish registration event
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user));
+
         // Map the saved user to UserResponse and return
         return userMapper.toUserResponse(user);
     }
+
 
     @Override
     public UserResponse getMyInfo() {

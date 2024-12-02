@@ -55,7 +55,12 @@ public enum ErrorCode {
     DOB_OLD(1036, "You are too old", HttpStatus.BAD_REQUEST),
     ROLE_NULL(1037, "Role is null", HttpStatus.BAD_REQUEST),
     ROLE_EMPTY(1038, "Role is empty", HttpStatus.BAD_REQUEST),
-
+    SUBSCRIPTION_NOT_FOUND(1,"Not found",HttpStatus.NOT_FOUND),
+    NOT_PREMIUM_USER(2,"Not macth",HttpStatus.BAD_REQUEST),
+    INVALID_PAYMENT_AMOUNT(3,"Payment amount is invalid",HttpStatus.BAD_REQUEST),
+    PAYMENT_FAILED(4,"Payment processing failed",HttpStatus.BAD_REQUEST),
+    ALREADY_PREMIUM(5,"User is already a premium member",HttpStatus.BAD_REQUEST),
+    SUBSCRIPTION_UPGRADE_FAILED(6,"Failed to upgrade subscription",HttpStatus.BAD_REQUEST);
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
