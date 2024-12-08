@@ -17,8 +17,8 @@ FROM amazoncorretto:21.0.4
 # Set working folder to App and copy complied file from above step
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-
-EXPOSE 8080
+COPY .env .env
+EXPOSE 8081
 # Command to run the application
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
