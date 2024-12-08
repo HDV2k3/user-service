@@ -2,6 +2,7 @@ package com.user.identity.service.Impl;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.user.identity.event.OnRegistrationCompleteEvent;
 import com.user.identity.repository.UserSubscriptionRepository;
@@ -120,10 +121,6 @@ public class UserServiceImpl implements UserService {
         }
         User user = userRepository.findById(request.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        if (request.getRoles() != null) {
-            user.setRoles(new HashSet<>());
-            request.getRoles().forEach(role -> roleRepository.findById(role).ifPresent(user.getRoles()::add));
-        }
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         } else {
@@ -141,12 +138,21 @@ public class UserServiceImpl implements UserService {
         if (request.getDayOfBirth() != null) {
             user.setDayOfBirth(request.getDayOfBirth());
         }
-
-
-        userMapper.updateUser(user, request);
         return userMapper.toUserResponse(userRepository.save(user));
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    public UserResponse updateRoles(Integer userId, Set<Role> newRoles) {
 
+        // Lấy user từ database
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        // Cập nhật roles
+        user.setRoles(newRoles);
+
+        // Lưu lại trong database
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
 
 
     @Override
