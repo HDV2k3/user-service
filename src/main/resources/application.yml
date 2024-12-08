@@ -16,21 +16,32 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
   datasource:
-    url: jdbc:postgresql://databaseidentity.cd8c028cinkb.ap-southeast-2.rds.amazonaws.com:5432/identity
-    username: postgres
-    password: Devhuynh2003
+    url: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
-    jpa:
+    hikari:
+      allow-pool-suspension: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+      boot:
+        allow_jdbc_metadata_access: false
+    properties:
       hibernate:
-        ddl-auto: update
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show_sql: true
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: never
   mail:
-    host: smtp.gmail.com
+    host: ${MAIL_HOST}
     port: 587
-    username: dacviethuynh@gmail.com
-    password: rmreuovkyxyjftyl
+    username: ${EMAIL}
+    password: ${PASS_EMAIL}
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
@@ -43,6 +54,8 @@ app:
   db:
     init:
       enabled: true
+dotenv:
+  enabled: true
 
 springdoc:
   api-docs:
@@ -62,13 +75,10 @@ feign:
     enabled: true
 
 jwt:
-  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  signerKey: ${SIGNER_KEY}
   valid-duration: 3600000000 # in seconds
   refreshable-duration: 3600000 # in seconds
 
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.tool.hbm2ddl: DEBUG
+
 
 
