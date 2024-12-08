@@ -51,5 +51,10 @@ jobs:
             docker images -f "dangling=true" -q | xargs --no-run-if-empty docker rmi
 
             # Tạo lại container mới từ image đã pull
-            docker run -d \ -p 8081:8081 \  --env-file /root/devhuynh/.env \ --name user-service \ devhuynh2003/user-service:latest
+            docker run -d \
+            -p 8081:8081 \
+            --env-file /root/devhuynh/.env \
+            --name user-service \
+            devhuynh2003/user-service:latest
+
 
