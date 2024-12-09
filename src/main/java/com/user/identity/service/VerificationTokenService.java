@@ -69,6 +69,7 @@ public class VerificationTokenService {
         Map<String, Object> response = new HashMap<>();
         String validationResult = validateVerificationToken(token);
 
+
         if ("valid".equals(validationResult)) {
             User user = userRepository.findByVerificationToken(token)
                     .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
