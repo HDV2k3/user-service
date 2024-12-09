@@ -18,6 +18,11 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
@@ -82,6 +87,6 @@ jwt:
   valid-duration: 3600000000 # in seconds
   refreshable-duration: 3600000 # in seconds
 
-
-
+kafka:
+  url: ${URL_KAFKA}
 

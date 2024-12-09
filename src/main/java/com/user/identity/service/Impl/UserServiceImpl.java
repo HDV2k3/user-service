@@ -3,10 +3,13 @@ package com.user.identity.service.Impl;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import com.user.identity.event.OnRegistrationCompleteEvent;
 import com.user.identity.repository.UserSubscriptionRepository;
 import com.user.identity.repository.entity.UserSubscription;
+import com.user.identity.service.EmailNotificationKafka;
+import com.user.identity.service.VerificationTokenService;
 import jakarta.transaction.Transactional;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,8 +44,10 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
-    ApplicationEventPublisher eventPublisher;
-    UserSubscriptionRepository userSubscriptionRepository;
+//    ApplicationEventPublisher eventPublisher;
+//    UserSubscriptionRepository userSubscriptionRepository;
+    EmailNotificationKafka emailNotificationKafka;
+    VerificationTokenService tokenService;
     public void validateUserCreationRequest(UserCreationRequest request) {
         if (request.getEmail() == null) {
             throw new AppException(ErrorCode.EMAIL_NULL);
@@ -86,18 +91,29 @@ public class UserServiceImpl implements UserService {
         // Save the user first to get the user ID
         user = userRepository.save(user);
 
-        // Create and save the UserSubscription
-        UserSubscription userSubscription = UserSubscription.builder()
-                .user(user)
-                .remainingFreePosts(5)  // Default 5 free posts
-                .isPremium(false)       // Default not premium
-                .build();
-
-        userSubscriptionRepository.save(userSubscription);
+//        // Create and save the UserSubscription
+//        UserSubscription userSubscription = UserSubscription.builder()
+//                .user(user)
+//                .remainingFreePosts(5)  // Default 5 free posts
+//                .isPremium(false)       // Default not premium
+//                .build();
+//
+//        userSubscriptionRepository.save(userSubscription);
 
         // Publish registration event
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user));
-
+//        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user));
+        String token = UUID.randomUUID().toString();
+        tokenService.createVerificationToken(user, token);
+        try {
+            // Send verification email
+            emailNotificationKafka.sendVerificationEmail(request, token);
+        } catch (Exception e) {
+            // Log the error
+            log.error("Failed to send verification email to {}: {}", request.getEmail(), e.getMessage());
+            userRepository.delete(user);
+            // Throw a custom exception or a general runtime exception to indicate failure
+            throw new AppException(ErrorCode.SEND_EMAIL_ERROR);
+        }
         // Map the saved user to UserResponse and return
         return userMapper.toUserResponse(user);
     }
@@ -127,7 +143,6 @@ public class UserServiceImpl implements UserService {
             if (user.getPassword() == null) {
                 throw new AppException(ErrorCode.INVALID_PASSWORD);
             }
-
         }
         if (request.getFirstName() != null && !request.getFirstName().isEmpty()) {
             user.setFirstName(request.getFirstName());
