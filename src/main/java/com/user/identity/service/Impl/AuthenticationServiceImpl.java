@@ -60,25 +60,44 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        // Khởi tạo PasswordEncoder
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
+        // Lấy thông tin người dùng từ email
         var user = userRepository
                 .findByEmail(request.getEmail())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
-        if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
-
-        var token = generateToken(user);
-
+        // Kiểm tra xem tài khoản đã được kích hoạt chưa
         if (!user.isEnabled()) {
+            // Nếu tài khoản chưa kích hoạt, gửi sự kiện đăng ký hoàn tất (hoặc thực hiện hành động khác như gửi email kích hoạt)
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user));
+
+            // Trả về response với token là null vì người dùng chưa kích hoạt
+            return AuthenticationResponse.builder()
+                    .token(null) // Không có token khi chưa kích hoạt
+                    .authenticated(false) // Đánh dấu là chưa được xác thực
+                    .build();
         }
 
+        // Nếu tài khoản đã kích hoạt, kiểm tra mật khẩu
+        boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
+
+        // Nếu mật khẩu không đúng, ném ra ngoại lệ
+        if (!authenticated) {
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
+
+        // Nếu tài khoản đã kích hoạt và mật khẩu đúng, tạo token cho người dùng
+        var token = generateToken(user);
+
+        // Trả về response với token và thông tin đã xác thực
         return AuthenticationResponse.builder()
-                .token(token) // Token đăng nhập (null nếu chưa kích hoạt)
-                .authenticated(true) // true nếu tài khoản đã kích hoạt, ngược lại là false
+                .token(token) // Token đăng nhập
+                .authenticated(true) // Đánh dấu là đã xác thực
                 .build();
     }
+
 
 
     @Override
