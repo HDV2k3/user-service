@@ -105,8 +105,7 @@ public class EmailNotificationKafka {
                 "    <div class=\"content\">\n" +
                 "      <p>Hello " + request.getEmail() + ",</p>\n" +
                 "      <p>Thank you for signing up! Please click the button below to verify your email address and activate your account:</p>\n" +
-                "      <a href=\"" + verificationUrl + "\" class=\"cta-button\">Verify Email</a>\n" +
-                "      <p>If you didn't create an account with us, please ignore this email.</p>\n" +
+                "      <a href=\"http://localhost:3000/verify-email/" + verificationUrl + "\" class=\"cta-button\">Verify Email</a>\n" +                "      <p>If you didn't create an account with us, please ignore this email.</p>\n" +
                 "    </div>\n" +
                 "    <div class=\"footer\">\n" +
                 "      <p>Need help? <a href=\"mailto:nextlife@odayok.com\">Contact Support</a></p>\n" +
