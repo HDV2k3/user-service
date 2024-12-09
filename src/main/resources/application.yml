@@ -1,3 +1,6 @@
+service:
+  url:
+    user: ${URL_PAYMENT}
 server:
   port: 8081
   servlet:

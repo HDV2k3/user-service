@@ -1,5 +1,6 @@
 package com.user.identity.service;
 
+import com.user.identity.repository.UserPaymentRepository;
 import com.user.identity.repository.entity.User;
 import com.user.identity.exception.AppException;
 import com.user.identity.exception.ErrorCode;
@@ -23,6 +24,7 @@ public class VerificationTokenService {
 
     UserRepository userRepository;
     EmailService emailService;
+    UserPaymentRepository userPaymentRepository;
 
     /**
      * Creates and assigns a verification token to the given user.
@@ -70,7 +72,7 @@ public class VerificationTokenService {
         if ("valid".equals(validationResult)) {
             User user = userRepository.findByVerificationToken(token)
                     .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
+            userPaymentRepository.createPayment(user.getId());
             response.put("email", user.getEmail());
             response.put("message", "Email verified successfully! You can now log in.");
         } else {
