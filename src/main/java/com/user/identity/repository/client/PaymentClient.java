@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "payment",url = "${service.url.payment}", configuration = {AuthenticationRequestInterceptor.class})
 public interface PaymentClient {
-    @GetMapping(value = "/userPayment/create",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/userPayment/create/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     ApiResponse<UserPaymentResponse> createPayment(@PathVariable("userId") int userId);
 }

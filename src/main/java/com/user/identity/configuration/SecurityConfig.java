@@ -37,7 +37,7 @@ public class SecurityConfig {
             "/auth/**",
             "/roles/**",
             "/permissions/**",
-            "/payment/userPayment/create/**"
+            "/userPayment/create/**"
 
     };
 
