@@ -17,7 +17,7 @@ public class EmailNotificationKafka {
     KafkaTemplate<String, Object> kafkaTemplate;
     public void sendVerificationEmail(UserCreationRequest request, String urlEmailToken) {
         NotificationEvent notificationEvent = buildEmailNotification(request, urlEmailToken);
-        kafkaTemplate.send("notification-group", notificationEvent);
+        kafkaTemplate.send("notification-delivery", notificationEvent);
     }
     public NotificationEvent buildEmailNotification(UserCreationRequest request, String urlEmailToken) {
         String emailBody = generateEmailBody(request, urlEmailToken);
