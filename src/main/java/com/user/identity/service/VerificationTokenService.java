@@ -113,6 +113,6 @@ public class VerificationTokenService {
 
     private String generateConfirmationUrl(String token) {
 
-        return "http://ec2-13-54-221-254.ap-southeast-2.compute.amazonaws.com:3000/verify-email/"+token;
+        return "http://localhost:3000/verify-email/"+token;
     }
 }
