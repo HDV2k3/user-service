@@ -17,11 +17,12 @@ import org.springframework.stereotype.Repository;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserPaymentRepository {
     PaymentClient paymentClient;
-    public void createPayment(int userId) {
+    public UserPaymentResponse createPayment(int userId) {
         UserPaymentResponse result = null;
         ApiResponse<UserPaymentResponse> clientResponse = paymentClient.createPayment(userId);
         if (ObjectUtils.isNotEmpty(clientResponse)) {
-          clientResponse.getData();
+            result = clientResponse.getData();
         }
+        return result;
     }
 }
