@@ -37,7 +37,7 @@ public class UserController {
      * @param request thông tin người dùng cần tạo
      * @return phản hồi thành công với thông tin người dùng vừa tạo
      */
-    @Operation(summary = "Tạo người dùng mới", description = "Đăng ký một người dùng mới với thông tin đã cung cấp.")
+    @Operation(summary = "Tạo người dùng mới", description = "Đăng ký một người dùng mới với thông tin đã cung cấp.", security = {@SecurityRequirement(name = "bearerAuth")})
     @PostMapping("/create")
     public ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         var result = userFacade.createUser(request);
@@ -49,8 +49,10 @@ public class UserController {
      *
      * @return danh sách tất cả người dùng đã đăng ký
      */
-    @Operation(summary = "Lấy tất cả người dùng", description = "Lấy danh sách tất cả người dùng đã đăng ký trong hệ thống.")
+    @Operation(summary = "Lấy tất cả người dùng", description = "Lấy danh sách tất cả người dùng đã đăng ký trong hệ thống.", security = {@SecurityRequirement(name = "bearerAuth")})
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')") // Yêu cầu Bearer token với quyền ADMIN
+
     public ApiResponse<List<UserResponse>> getUsers() {
         var result = userFacade.getUsers();
         return ApiResponse.success(result);
@@ -62,7 +64,7 @@ public class UserController {
      * @param userId ID của người dùng
      * @return thông tin của người dùng theo ID
      */
-    @Operation(summary = "Lấy thông tin người dùng theo ID", description = "Lấy thông tin của một người dùng cụ thể theo ID của họ.")
+    @Operation(summary = "Lấy thông tin người dùng theo ID", description = "Lấy thông tin của một người dùng cụ thể theo ID của họ.", security = {@SecurityRequirement(name = "bearerAuth")})
     @GetMapping("/get-by-id/{userId}")
     public ApiResponse<UserResponse> getUser(@PathVariable("userId") int userId) {
         var result = userFacade.getUser(userId);

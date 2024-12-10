@@ -24,7 +24,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {
-        "/users/get-by-id/**",
+            "/users/get-by-id/**",
             "/users/create",
             "/users/update/**",
             "/auth/login",

@@ -20,4 +20,5 @@ public class UserResponse {
     String verificationToken;
     boolean enabled;
     Set<RoleResponse> roles;
+    String avatar;
 }
