@@ -90,3 +90,19 @@ jwt:
 kafka:
   url: ${URL_KAFKA}
 
+firebase:
+  config:
+    project-id: "datpt-ce669"
+    credentials:
+      type: "service_account"
+      project_id: "datpt-ce669"
+      private_key_id: "cb456274d9bf8249a5651fbef45153f7a7cd2029"
+      private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC4H4lLuTxYpare\nFr0BOKNmMt+u1uyN183Cyo2tn4NbX/tQfHubokjiznnDOkDplCaTQyK7NM4N7JBs\nXXRHIK5+VeNuEZOmDTwj1qYyOIRwf5b62k6Df2RxlJ/NLrG7t8j1ZoX3Ah3+icyE\nkj6apPr9sExd/CRRIjP2UGanSyQZKup3DqMkpNW5cnZUACdcYJPBtGnudaJX1kzZ\nCrrqnXTqS8NWfGSfXdzcPn8qSLJcMirtoAQ9a8ZxrgB0sJUeY+Nj1QwQGE6YkDqA\nX2YjNkpj/7Xld4xJkENumGFWi98Eklj2oyNqwSu94GyBPa9O35ZO4e3N+gK9C07h\nHU/4cSqXAgMBAAECggEAWvyqmlMFcUEc+Pb/m5TjmmNVik8HQuj782CpNr126ja6\nOIHri3Nc1Uf3f/RPk530mh05Eo37rYHTtNlR1rxdvmyvIPtqnUo5B/TQ2Ex5liZW\n88vhtLXFayNo/LowdnVRx4NMfE39iIWMHY8vhLg2mBsBAgjR4Y4nY3dD4zQMuKpW\nNml1rYWbDCKG/kE7cgE4zBNnHnzt3m/4zOLxXTOmO2uLyYXRC/yur04Nwg0omrGt\npuEyhbOZF/oAlvqNhN2BrTXLS3w8vQOXSfQRxXWMJZQhjZpyLy1rvCmIEd29aYr8\nMt8dJFxItZCyphunhOKEWZJXXFhtG7BgbFkGUehLkQKBgQD2kicNVllvkAuuzaoD\ng1km276s5VPVyQ3Fjh0keyFFK9PDy9wRQ9uCc64SKDcbiS9euLZCXHLNbFeOFdu2\nThoJ/9K6JTdXJfOTVEk67Cu6KX/Rki9TD7cjPs/bXzY/1fsfcRhAIhEVDuGk6SG2\nzSdUFGp7VXy3RblfDfngsIiM9QKBgQC/KgqSCRREfW5oB8gAQFJa6bB36xQCsZzK\nSSTGowwKMEACB+sJLoir69rEv7W3VFAeRLMsLGXUTJjrnrlDbbml9RRSonXHG9kO\n1l+nEZw3tA4aeWoGh00QXWYf18PJZgPWLVkOitano+bbxrp+WA/dNM0oZg62iqSi\nZqCzyoEh2wKBgDCtRbxiUaGupD/MJkYvRghf1VK4q0ZHPMrFdYdgL39CWboLotRd\nuxYT1EeNXOO4v3tJp+GN8rQPMXHBavCglo9my6kn87bmrSFmwFY7jZ5g1vT+kQ0q\nyxLQMaSzNTiA++SHJSx0DT9FAtLVm2xFMABvT14t0EM2JpRXY/8xmqOJAoGAY6NX\nFRz0WmqCVGjR3wenpUkuuKJnsKvAzFLpfztWuCzEAAr+f6+ofuuVAH3oCiFBDTXD\nqd+OR+SQxCbb64BShmTCbfvNpbUnIqur+ZmdMg+AVl44XCTDjycPZsOAggXRNB44\nz/KfxYsRdjYT2GywAB1YXZksTArhmuAhHPUM74cCgYEAm+Qguy4UXE7w6RMgMoxI\n3k5J2ub2XN0bNBmELkb76c2hWU7zfOOA+DmoyEzY+Lq3zj5lQxaItAvqLm4bggdP\n2S7NnX1EvqeDUj3zVSbGLRzKwwYjqcc+5+N3zhZBMEgSobe5HkahQDaHH9GJyRi9\nrRgDPjBBvbFVD+F+JmcfYTc=\n-----END PRIVATE KEY-----\n"
+      client_email: "firebase-adminsdk-uh9g3@datpt-ce669.iam.gserviceaccount.com"
+      client_id: "110524189056890981747"
+      auth_uri: "https://accounts.google.com/o/oauth2/auth"
+      token_uri: "https://oauth2.googleapis.com/token"
+      auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+      client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-uh9g3@datpt-ce669.iam.gserviceaccount.com"
+  storage:
+    bucket: datpt-ce669.appspot.com

@@ -5,6 +5,7 @@ import java.util.List;
 import com.user.identity.controller.dto.request.UserCreationRequest;
 import com.user.identity.controller.dto.request.UserUpdateRequest;
 import com.user.identity.controller.dto.response.UserResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
     UserResponse createUser(UserCreationRequest request);
@@ -20,5 +21,5 @@ public interface UserService {
     UserResponse getUser(int id);
 
     UserResponse getMe();
-
+    String  uploadImagesAvatar(int userId, MultipartFile file);
 }

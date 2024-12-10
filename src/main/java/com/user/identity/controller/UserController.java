@@ -14,11 +14,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Tag(name = "User Controller", description = "Quản lý các hoạt động người dùng như tạo mới, cập nhật, xóa, xác minh, v.v.")
 @RestController
@@ -146,5 +150,19 @@ public class UserController {
     public ApiResponse<String> resendVerification(@RequestParam("email") String email) {
         var result = verifyFacade.resendVerification(email);
         return ApiResponse.success(result);
+    }
+
+    /**
+     * Tải lên hình ảnh cho bài viết phòng cho thuê hoặc bán.
+     *
+     * @param userId ID của bài viết cần tải hình ảnh.
+     * @param file Các tệp hình ảnh cần tải lên.
+     * @return Danh sách các hình ảnh đã tải lên cho bài viết.
+     */
+    @Operation(summary = "Upload avatar", description = "Upload avatar.",security = {@SecurityRequirement(name = "bearerAuth")})
+    @PostMapping(value = "/upload-avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<String> uploadPostImages(@RequestParam int userId, @RequestPart(value = "file", required = false) MultipartFile file) {
+        String uploadedImages = userFacade.uploadAvatar(userId, file);
+        return ApiResponse.success(uploadedImages);
     }
 }

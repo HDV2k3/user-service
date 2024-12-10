@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.user.identity.constant.BucketConstants;
 import com.user.identity.event.OnRegistrationCompleteEvent;
 import com.user.identity.repository.UserSubscriptionRepository;
 import com.user.identity.repository.entity.UserSubscription;
@@ -34,6 +35,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +46,7 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    FirebaseStorageClient firebaseStorageClient;
 //    ApplicationEventPublisher eventPublisher;
 //    UserSubscriptionRepository userSubscriptionRepository;
     EmailNotificationKafka emailNotificationKafka;
@@ -199,5 +202,36 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return userMapper.toUserResponse(user);
+    }
+
+    @Override
+    // Phương thức tải ảnh avatar lên Firebase Storage và cập nhật thông tin người dùng
+    public String uploadImagesAvatar(int userId, MultipartFile file) {
+        try {
+            // Kiểm tra người dùng tồn tại trong hệ thống
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+            // Kiểm tra nếu file không rỗng
+            if (file == null || file.isEmpty()) {
+                throw new AppException(ErrorCode.REQUEST_EMPTY);
+            }
+
+            // Tải ảnh lên Firebase Storage và lấy URL công khai của ảnh
+            String avatarUrl = firebaseStorageClient.uploadFileToBucket(BucketConstants.BUCKET_NAME.getValue(), BucketConstants.AVATAR_FOLDER.getValue(), file);
+
+            // Cập nhật URL ảnh vào thông tin người dùng
+            user.setAvatar(avatarUrl);
+
+            // Lưu lại thông tin người dùng với avatar mới
+            userRepository.save(user);
+
+            // Trả về URL của ảnh đã tải lên
+            return avatarUrl;
+
+        } catch (Exception e) {
+            log.error("Failed to upload avatar for user {}: {}", userId, e.getMessage(), e);
+            throw new AppException(ErrorCode.REQUEST_NULL); // Đảm bảo có mã lỗi phù hợp
+        }
     }
 }

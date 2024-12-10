@@ -1,6 +1,8 @@
 package com.user.identity.facade;
 
 import java.util.List;
+import java.util.Set;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import com.user.identity.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -81,6 +84,8 @@ public class UserFacade {
         return userService.getMe();
     }
 
-
+    public String uploadAvatar(int userId, MultipartFile file) {
+        return userService.uploadImagesAvatar(userId, file);
+    }
 
 }

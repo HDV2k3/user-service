@@ -2,6 +2,7 @@ package com.user.identity.repository.entity;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -39,7 +40,8 @@ public class User extends BaseEntity {
 
     @Column(name = "last_name")
     String lastName;
-
+    @Column(name = "avatar")
+    String avatar;
     @Column(name = "day_of_birth",nullable = false)
     LocalDate dayOfBirth;
     String verificationToken;

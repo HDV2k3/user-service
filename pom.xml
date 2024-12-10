@@ -76,6 +76,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>8.1.0</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/me.paulschwarz/spring-dotenv -->
 		<dependency>
 			<groupId>me.paulschwarz</groupId>
