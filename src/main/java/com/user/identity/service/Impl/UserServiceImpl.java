@@ -4,8 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.user.identity.constant.BucketConstants;
+import com.user.identity.controller.dto.response.InfoUserForCount;
 import com.user.identity.event.OnRegistrationCompleteEvent;
 import com.user.identity.repository.UserSubscriptionRepository;
 import com.user.identity.repository.entity.UserSubscription;
@@ -233,5 +235,22 @@ public class UserServiceImpl implements UserService {
             log.error("Failed to upload avatar for user {}: {}", userId, e.getMessage(), e);
             throw new AppException(ErrorCode.REQUEST_NULL); // Đảm bảo có mã lỗi phù hợp
         }
+    }
+
+    @Override
+    public InfoUserForCount countUser() {
+        // Đếm số lượng người dùng
+        int quantityUser = (int) userRepository.count();
+
+        // Lấy danh sách tất cả người dùng và ánh xạ ra chỉ các id
+        List<Integer> userId = userRepository.findAll().stream()
+                .map(User::getId)  // Lấy id của mỗi User
+                .collect(Collectors.toList());
+
+        // Trả về thông tin bao gồm số lượng người dùng và danh sách id
+        return InfoUserForCount.builder()
+                .quantityUser(quantityUser)
+                .id(userId)
+                .build();
     }
 }

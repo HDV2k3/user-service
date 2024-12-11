@@ -3,6 +3,7 @@ package com.user.identity.controller;
 import com.user.identity.controller.dto.ApiResponse;
 import com.user.identity.controller.dto.request.UserCreationRequest;
 import com.user.identity.controller.dto.request.UserUpdateRequest;
+import com.user.identity.controller.dto.response.InfoUserForCount;
 import com.user.identity.controller.dto.response.UserResponse;
 import com.user.identity.facade.UserFacade;
 import com.user.identity.facade.VerifyFacade;
@@ -164,5 +165,11 @@ public class UserController {
     public ApiResponse<String> uploadPostImages(@RequestParam int userId, @RequestPart(value = "file", required = false) MultipartFile file) {
         String uploadedImages = userFacade.uploadAvatar(userId, file);
         return ApiResponse.success(uploadedImages);
+    }
+
+    @GetMapping("/quantityUser")
+    public ApiResponse<InfoUserForCount> countUser ()
+    {
+        return ApiResponse.success(userFacade.countUser());
     }
 }

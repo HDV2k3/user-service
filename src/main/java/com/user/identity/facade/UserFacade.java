@@ -1,20 +1,18 @@
 package com.user.identity.facade;
 
-import java.util.List;
-import java.util.Set;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import com.user.identity.controller.dto.request.UserCreationRequest;
 import com.user.identity.controller.dto.request.UserUpdateRequest;
+import com.user.identity.controller.dto.response.InfoUserForCount;
 import com.user.identity.controller.dto.response.UserResponse;
 import com.user.identity.service.UserService;
-
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -22,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserFacade {
     UserService userService;
+
     /**
      * Creates a new user based on the provided request.
      *
@@ -47,7 +46,7 @@ public class UserFacade {
      * @param request the user update request containing updated user details
      * @return UserResponse containing the updated user details
      */
-    public UserResponse updateUser( UserUpdateRequest request) {
+    public UserResponse updateUser(UserUpdateRequest request) {
         return userService.updateUser(request);
     }
 
@@ -86,6 +85,10 @@ public class UserFacade {
 
     public String uploadAvatar(int userId, MultipartFile file) {
         return userService.uploadImagesAvatar(userId, file);
+    }
+
+    public InfoUserForCount countUser() {
+        return userService.countUser();
     }
 
 }
