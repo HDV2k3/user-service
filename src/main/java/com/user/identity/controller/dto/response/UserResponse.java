@@ -17,6 +17,7 @@ public class UserResponse {
     String firstName;
     String lastName;
     LocalDate dayOfBirth;
+    String avatar;
     String verificationToken;
     boolean enabled;
     Set<RoleResponse> roles;
