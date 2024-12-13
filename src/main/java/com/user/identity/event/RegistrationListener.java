@@ -39,6 +39,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         } catch (MessagingException e) {
             // Handle the exception (log it, notify the user, etc.)
             e.printStackTrace();
+
         }
     }
 }
