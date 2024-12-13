@@ -33,7 +33,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         String token = UUID.randomUUID().toString();
         tokenService.createVerificationToken(user, token);
         String recipientAddress = user.getEmail();
-        String confirmationUrl = "http://localhost:3000/verify-email/"+token;
+        String confirmationUrl = "http://62.72.30.111:3001/verify-email/"+token;
         try {
             emailService.sendVerificationEmail(recipientAddress,user.getFirstName(),user.getLastName(), confirmationUrl);
         } catch (MessagingException e) {
