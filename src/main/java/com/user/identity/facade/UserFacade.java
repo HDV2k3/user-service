@@ -1,5 +1,6 @@
 package com.user.identity.facade;
 
+import com.user.identity.controller.dto.request.SupportRequest;
 import com.user.identity.controller.dto.request.UserCreationRequest;
 import com.user.identity.controller.dto.request.UserUpdateRequest;
 import com.user.identity.controller.dto.response.InfoUserForCount;
@@ -91,4 +92,9 @@ public class UserFacade {
         return userService.countUser();
     }
 
+    public String supportEmail(SupportRequest request)
+    {
+         userService.supportEmail(request);
+         return "1";
+    }
 }

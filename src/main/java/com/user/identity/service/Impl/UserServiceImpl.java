@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.user.identity.constant.BucketConstants;
+import com.user.identity.controller.dto.request.SupportRequest;
 import com.user.identity.controller.dto.response.InfoUserForCount;
 import com.user.identity.event.OnRegistrationCompleteEvent;
 import com.user.identity.repository.UserSubscriptionRepository;
@@ -252,5 +253,10 @@ public class UserServiceImpl implements UserService {
                 .quantityUser(quantityUser)
                 .id(userId)
                 .build();
+    }
+
+    @Override
+    public void supportEmail(SupportRequest request) {
+        emailNotificationKafka.buildEmailNotificationSupport(request);
     }
 }

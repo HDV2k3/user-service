@@ -1,6 +1,7 @@
 package com.user.identity.controller;
 
 import com.user.identity.controller.dto.ApiResponse;
+import com.user.identity.controller.dto.request.SupportRequest;
 import com.user.identity.controller.dto.request.UserCreationRequest;
 import com.user.identity.controller.dto.request.UserUpdateRequest;
 import com.user.identity.controller.dto.response.InfoUserForCount;
@@ -22,8 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Tag(name = "User Controller", description = "Quản lý các hoạt động người dùng như tạo mới, cập nhật, xóa, xác minh, v.v.")
 @RestController
@@ -94,7 +93,7 @@ public class UserController {
      * @param userId ID của người dùng cần xóa
      * @return phản hồi thành công khi xóa người dùng
      */
-    @Operation(summary = "Xóa người dùng theo ID", description = "Xóa người dùng với ID đã cung cấp.",security = {@SecurityRequirement(name = "bearerAuth")})
+    @Operation(summary = "Xóa người dùng theo ID", description = "Xóa người dùng với ID đã cung cấp.", security = {@SecurityRequirement(name = "bearerAuth")})
     @DeleteMapping("/{userId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')") // Yêu cầu Bearer token với quyền ADMIN
     public ApiResponse<String> deleteUser(@PathVariable int userId) {
@@ -108,7 +107,7 @@ public class UserController {
      * @param request thông tin người dùng cần cập nhật
      * @return phản hồi thành công với thông tin người dùng sau khi cập nhật
      */
-    @Operation(summary = "Cập nhật thông tin người dùng", description = "Cập nhật thông tin người dùng với các chi tiết đã cung cấp.",security = {@SecurityRequirement(name = "bearerAuth")})
+    @Operation(summary = "Cập nhật thông tin người dùng", description = "Cập nhật thông tin người dùng với các chi tiết đã cung cấp.", security = {@SecurityRequirement(name = "bearerAuth")})
     @PutMapping("/update")
     public ApiResponse<UserResponse> updateUser(@RequestBody @Valid UserUpdateRequest request) {
         var result = userFacade.updateUser(request);
@@ -157,10 +156,10 @@ public class UserController {
      * Tải lên hình ảnh cho bài viết phòng cho thuê hoặc bán.
      *
      * @param userId ID của bài viết cần tải hình ảnh.
-     * @param file Các tệp hình ảnh cần tải lên.
+     * @param file   Các tệp hình ảnh cần tải lên.
      * @return Danh sách các hình ảnh đã tải lên cho bài viết.
      */
-    @Operation(summary = "Upload avatar", description = "Upload avatar.",security = {@SecurityRequirement(name = "bearerAuth")})
+    @Operation(summary = "Upload avatar", description = "Upload avatar.", security = {@SecurityRequirement(name = "bearerAuth")})
     @PostMapping(value = "/upload-avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<String> uploadPostImages(@RequestParam int userId, @RequestPart(value = "file", required = false) MultipartFile file) {
         String uploadedImages = userFacade.uploadAvatar(userId, file);
@@ -168,8 +167,12 @@ public class UserController {
     }
 
     @GetMapping("/quantityUser")
-    public ApiResponse<InfoUserForCount> countUser ()
-    {
+    public ApiResponse<InfoUserForCount> countUser() {
         return ApiResponse.success(userFacade.countUser());
+    }
+
+    @PostMapping("/support")
+    public ApiResponse<String> supportEmail(@RequestBody SupportRequest request) {
+        return ApiResponse.success(userFacade.supportEmail(request));
     }
 }
