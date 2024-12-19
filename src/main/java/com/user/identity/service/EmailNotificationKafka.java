@@ -22,6 +22,11 @@ public class EmailNotificationKafka {
         kafkaTemplate.send("notification-delivery", notificationEvent);
     }
 
+    public void sendVerificationEmailSupport(SupportRequest request) {
+        NotificationEvent notificationEvent = buildEmailNotificationSupport(request);
+        kafkaTemplate.send("notification-delivery", notificationEvent);
+    }
+
     public NotificationEvent buildEmailNotification(UserCreationRequest request, String urlEmailToken) {
         String emailBody = generateEmailBody(request, urlEmailToken);
         return NotificationEvent.builder()

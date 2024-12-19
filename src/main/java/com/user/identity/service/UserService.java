@@ -2,6 +2,7 @@ package com.user.identity.service;
 
 import java.util.List;
 
+import com.user.identity.controller.dto.request.IdeaCustomerRequest;
 import com.user.identity.controller.dto.request.SupportRequest;
 import com.user.identity.controller.dto.request.UserCreationRequest;
 import com.user.identity.controller.dto.request.UserUpdateRequest;
@@ -27,4 +28,5 @@ public interface UserService {
     InfoUserForCount countUser();
 
     void  supportEmail(SupportRequest request);
+
 }

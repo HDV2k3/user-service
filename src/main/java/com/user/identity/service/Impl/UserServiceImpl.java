@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.user.identity.constant.BucketConstants;
+import com.user.identity.controller.dto.request.IdeaCustomerRequest;
 import com.user.identity.controller.dto.request.SupportRequest;
 import com.user.identity.controller.dto.response.InfoUserForCount;
 import com.user.identity.event.OnRegistrationCompleteEvent;
@@ -257,6 +258,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void supportEmail(SupportRequest request) {
-        emailNotificationKafka.buildEmailNotificationSupport(request);
+        emailNotificationKafka.sendVerificationEmailSupport(request);
     }
+
 }
