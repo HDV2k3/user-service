@@ -41,7 +41,7 @@ public class UserController {
      * @param request thông tin người dùng cần tạo
      * @return phản hồi thành công với thông tin người dùng vừa tạo
      */
-    @Operation(summary = "Tạo người dùng mới", description = "Đăng ký một người dùng mới với thông tin đã cung cấp.", security = {@SecurityRequirement(name = "bearerAuth")})
+    @Operation(summary = "Tạo người dùng mới", description = "Đăng ký một người dùng mới với thông tin đã cung cấp.")
     @PostMapping("/create")
     public ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         var result = userFacade.createUser(request);
