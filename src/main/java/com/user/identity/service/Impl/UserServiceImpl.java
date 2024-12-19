@@ -12,6 +12,7 @@ import com.user.identity.controller.dto.request.SupportRequest;
 import com.user.identity.controller.dto.response.InfoUserForCount;
 import com.user.identity.event.OnRegistrationCompleteEvent;
 import com.user.identity.repository.UserSubscriptionRepository;
+import com.user.identity.repository.client.PaymentClient;
 import com.user.identity.repository.entity.UserSubscription;
 import com.user.identity.service.EmailNotificationKafka;
 import com.user.identity.service.VerificationTokenService;
@@ -51,6 +52,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     FirebaseStorageClient firebaseStorageClient;
+    PaymentClient paymentClient;
 //    ApplicationEventPublisher eventPublisher;
 //    UserSubscriptionRepository userSubscriptionRepository;
     EmailNotificationKafka emailNotificationKafka;
@@ -114,6 +116,7 @@ public class UserServiceImpl implements UserService {
         try {
             // Send verification email
             emailNotificationKafka.sendVerificationEmail(request, token);
+            paymentClient.createPayment(user.getId());
         } catch (Exception e) {
             // Log the error
             log.error("Failed to send verification email to {}: {}", request.getEmail(), e.getMessage());
