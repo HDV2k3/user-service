@@ -75,7 +75,6 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
-    @Transactional
     public UserResponse createUser(UserCreationRequest request) {
         // Validate the request
         validateUserCreationRequest(request);
