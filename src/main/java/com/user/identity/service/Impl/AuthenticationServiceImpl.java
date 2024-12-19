@@ -75,7 +75,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             // Trả về response với token là null vì người dùng chưa kích hoạt
             return AuthenticationResponse.builder()
-                    .token(null) // Không có token khi chưa kích hoạt
+                    .token("Vui lòng xác thực tài khoản qua Email!") // Không có token khi chưa kích hoạt
                     .authenticated(false) // Đánh dấu là chưa được xác thực
                     .build();
         }
@@ -94,6 +94,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // Trả về response với token và thông tin đã xác thực
         return AuthenticationResponse.builder()
                 .token(token) // Token đăng nhập
+                .id(user.getId())
                 .authenticated(true) // Đánh dấu là đã xác thực
                 .build();
     }
