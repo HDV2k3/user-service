@@ -98,24 +98,12 @@ public class UserServiceImpl implements UserService {
 
         // Save the user first to get the user ID
         user = userRepository.save(user);
-
-//        // Create and save the UserSubscription
-//        UserSubscription userSubscription = UserSubscription.builder()
-//                .user(user)
-//                .remainingFreePosts(5)  // Default 5 free posts
-//                .isPremium(false)       // Default not premium
-//                .build();
-//
-//        userSubscriptionRepository.save(userSubscription);
-
-        // Publish registration event
-//        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user));
         String token = UUID.randomUUID().toString();
         tokenService.createVerificationToken(user, token);
         try {
+            paymentClient.createPayment(user.getId());
             // Send verification email
             emailNotificationKafka.sendVerificationEmail(request, token);
-            paymentClient.createPayment(user.getId());
         } catch (Exception e) {
             // Log the error
             log.error("Failed to send verification email to {}: {}", request.getEmail(), e.getMessage());
